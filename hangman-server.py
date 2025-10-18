@@ -35,3 +35,19 @@ while True:
     if not master or not word:
         # TRATAR ERRO DE MASTER_SETUP
         pass
+
+    # Inicia jogo
+
+    word_array = []
+    empty_array = []
+    for letter in word:
+        word_array.append(letter)
+        empty_array.append('_')
+
+    game_state = {
+        'word': word_array,
+        'empty_word': empty_array,
+        'lives': 7,
+        'guesses': []
+    }
+    
