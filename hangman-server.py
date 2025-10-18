@@ -1,7 +1,7 @@
 import socket
 
-import funcs.check_funcs as check
-import server_funcs
+from .shared import check_funcs as check
+from . import server
 
 # Verificação de parâmetros
 numero_jogadores, porta = check.check_server_execution_parameters()
@@ -27,10 +27,10 @@ while True:
     print("Iniciando novo jogo...")
 
     # Aguarda e armazena todos os jogadores
-    connected_players = server_funcs.init_players(server_socket, numero_jogadores)
+    connected_players = server.players.init(server_socket, numero_jogadores)
 
     # Define o mestre e a palavra da rodada
-    master, word = server_funcs.master_setup(connected_players)
+    master, word = server.master.master_setup(connected_players)
     
     if not master or not word:
         # TRATAR ERRO DE MASTER_SETUP
@@ -51,3 +51,4 @@ while True:
         'guesses': []
     }
     
+    server.send_message_to_all(connected_players, f"NEWGAME {}")

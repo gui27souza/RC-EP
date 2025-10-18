@@ -1,9 +1,10 @@
 from socket import socket
-from typing import List, Dict
+from typing import List
+from ..models.Player import Player
 
-from funcs.receive_message import receive_message
+from shared.receive_message import receive_message
 
-def init_players(server_socket: socket, numero_jogadores: int) -> List[Dict]:
+def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
     '''
     Busca o número de jogadores especificado, retornando uma lista de dicionários, onde cada um tem o socket, nome e endereço do cliente
     '''
@@ -31,11 +32,11 @@ def init_players(server_socket: socket, numero_jogadores: int) -> List[Dict]:
                 # LIDAR COM NOME INVÁLIDO
                 pass
 
-            connected_players.append({
-                'socket': client_socket,
-                'name': player_name,
-                'address': client_address
-            })
+            connected_players.append(Player(
+                socket=client_socket,
+                name=player_name,
+                address=client_address
+            ))
 
             # Envia resposta de STANDBY ao cliente
             standby_msg = "STANDBY\r\n"

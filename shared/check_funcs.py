@@ -3,9 +3,10 @@
 '''
 
 import sys
+from typing import Tuple
 
 # Verificação de parâmetros para execução do script de servidor
-def check_server_execution_parameters() -> {int, int}:
+def check_server_execution_parameters() -> Tuple[int, int]:
   '''
   #### Checagem de parâmetros server
   - Checa os parâmetros de execução do script de servidor
@@ -36,7 +37,7 @@ def check_server_execution_parameters() -> {int, int}:
     sys.exit(1)
 
 # Verificação de parâmetros para execução do script de cliente
-def check_client_execution_parameters() -> {str, str, int}:
+def check_client_execution_parameters() -> Tuple[str, str, int]:
   '''
   #### Checagem de parâmetros client
   - Checa os parâmetros de execução do script de cliente
