@@ -4,7 +4,7 @@ from typing import List, Tuple
 from ..models.Player import Player
 
 from ..shared.receive_message import receive_message
-from .send_message_to_all import send_message_to_all
+from .message import send_message_to_all
 
 def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
     
