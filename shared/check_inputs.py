@@ -6,7 +6,7 @@ import sys
 from typing import Tuple
 
 # Verificação de parâmetros para execução do script de servidor
-def check_server_execution_parameters() -> Tuple[int, int]:
+def server() -> Tuple[int, int]:
   '''
   #### Checagem de parâmetros server
   - Checa os parâmetros de execução do script de servidor
