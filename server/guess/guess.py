@@ -1,5 +1,4 @@
-from ...models.Player import Player
-from ...models.GameState import GameState
+from ...models import Player, GameState
 
 from .. import message
 

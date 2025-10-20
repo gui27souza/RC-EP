@@ -1,7 +1,6 @@
 import socket
 
-from .models.Player import Player
-from .models.GameState import GameState
+from .models import Player, GameState
 
 from .shared import check_inputs
 from . import server

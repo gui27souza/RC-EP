@@ -1,7 +1,7 @@
 import random, socket
 
 from typing import List, Tuple
-from ..models.Player import Player
+from ..models import Player
 
 from ..shared.receive_message import receive_message
 from .message import send_message_to_all

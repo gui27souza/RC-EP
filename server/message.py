@@ -1,5 +1,5 @@
 from typing import List
-from ..models.Player import Player
+from ..models import Player
 
 from ..shared.receive_message import receive_message as shared_receive_message
 
