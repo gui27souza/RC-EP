@@ -1,10 +1,13 @@
 import socket
 
-from .shared import check_funcs as check
+from .models.Player import Player
+from .models.GameState import GameState
+
+from .shared import check_inputs
 from . import server
 
 # Verificação de parâmetros
-numero_jogadores, porta = check.check_server_execution_parameters()
+numero_jogadores, porta = check_inputs.server()
 
 # Criação do objeto socket
 server_socket = socket.socket(
@@ -34,21 +37,30 @@ while True:
     
     if not master or not word:
         # TRATAR ERRO DE MASTER_SETUP
-        pass
+        continue
 
     # Inicia jogo
 
-    word_array = []
-    empty_array = []
-    for letter in word:
-        word_array.append(letter)
-        empty_array.append('_')
-
-    game_state = {
-        'word': word_array,
-        'empty_word': empty_array,
-        'lives': 7,
-        'guesses': []
-    }
+    game_state = GameState(
+        word=word,
+        all_players=connected_players,
+        master_player=master
+    )
     
-    server.send_message_to_all(connected_players, f"NEWGAME {}")
+    server.message.send_message_to_all(connected_players, f"NEWGAME {game_state.lives} {len(game_state.word)}")
+
+    is_game_over = False
+    while not is_game_over:
+        
+        for turn_player in game_state.common_players:
+
+            server.message.send_message(turn_player, "YOURTURN")
+
+            server.guess.deal_guess(turn_player)
+
+            if game_over():
+                server.message.send_message_to_all(connected_players, f"GAMEOVER {} {} {game_state.word}")
+                is_game_over = True
+                break
+
+
