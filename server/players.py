@@ -3,6 +3,7 @@ from typing import List
 from ..models import Player
 
 from shared.receive_message import receive_message
+from ..models import Error
 
 def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
     '''

@@ -2,6 +2,7 @@ import random, socket
 
 from typing import List, Tuple
 from ..models import Player
+from ..models import Error
 
 from ..shared.receive_message import receive_message
 from .message import send_message_to_all
@@ -35,6 +36,7 @@ def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
         
         print(f"Erro CRÍTICO no setup do mestre ({master_player['name']}): {e}")
         send_message_to_all(connected_players, "ERROR INVALID_MASTER_MESSAGE")
+        message.send_message_to_all_players(connected_players, Error.INVALID_MASTER_MESSAGE)
 
         for player in connected_players: 
             try: player.socket.close()
