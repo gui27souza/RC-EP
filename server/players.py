@@ -30,8 +30,11 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
             player_name = initial_message.split(' ', 1)[1]
 
             if not player_name or ' ' in player_name or not player_name.isalnum():
-                # LIDAR COM NOME INVÁLIDO
-                pass
+                message.send_message(client_socket, Error.INVALID_PLAYER_NAME})
+                client_socket.close()
+                print(f"Erro: Jogador de {client_address} enviou nome inválido ('{player_name}'). Conexão encerrada.")
+                continue
+
 
             connected_players.append(Player(
                 socket=client_socket,
