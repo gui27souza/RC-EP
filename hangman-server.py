@@ -46,19 +46,19 @@ while True:
         master_player=master
     )
     
-    server.message.send_message_to_all(connected_players, f"NEWGAME {game_state.lives} {len(game_state.word)}")
+    server.message.send_message_to_all_players(connected_players, f"NEWGAME {game_state.lives} {len(game_state.word)}")
 
     is_game_over = False
     while not is_game_over:
         
         for turn_player in game_state.common_players:
 
-            server.message.send_message(turn_player, "YOURTURN")
+            server.message.send_message_to_player(turn_player, "YOURTURN")
 
             server.guess.deal_guess(turn_player)
 
             if game_over():
-                server.message.send_message_to_all(connected_players, f"GAMEOVER {} {} {game_state.word}")
+                server.message.send_message_to_all_players(connected_players, f"GAMEOVER {} {} {game_state.word}")
                 is_game_over = True
                 break
 

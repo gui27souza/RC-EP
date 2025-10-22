@@ -2,8 +2,8 @@ from socket import socket
 from typing import List
 from ..models import Player
 
-from shared.receive_message import receive_message
 from ..models import Error
+from . import message
 
 def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
     '''
@@ -22,7 +22,7 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
         client_socket, client_address = server_socket.accept()
 
         # Recebe NEWPLAYER <nome>
-        initial_message = receive_message(client_socket)
+        initial_message = message.receive_message(client_socket)
 
         if initial_message and initial_message.startswith("NEWPLAYER "):
             

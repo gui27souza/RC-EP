@@ -5,7 +5,7 @@ from ..models import Player
 from ..models import Error
 
 from ..shared.receive_message import receive_message
-from .message import send_message_to_all
+from . import message
 
 def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
     
@@ -18,7 +18,11 @@ def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
         master_socket.sendall("MASTER\r\n".encode('ascii'))
         response = receive_message(master_socket)
 
-        if response and response.startswith("WORD"):
+        if response:
+            if not response.startswith("WORD"):
+                message.send_message_to_player(master_player, Error.INVALID_FORMAT)
+
+
             try:
 
                 chosen_word = response.split(' ', 1)[1].strip()
@@ -35,7 +39,6 @@ def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
     except Exception as e:
         
         print(f"Erro CRÍTICO no setup do mestre ({master_player['name']}): {e}")
-        send_message_to_all(connected_players, "ERROR INVALID_MASTER_MESSAGE")
         message.send_message_to_all_players(connected_players, Error.INVALID_MASTER_MESSAGE)
 
         for player in connected_players: 
