@@ -36,21 +36,25 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
                 continue
 
 
-            connected_players.append(Player(
+            new_player = Player(
                 socket=client_socket,
                 name=player_name,
                 address=client_address
-            ))
+            )
+            connected_players.append(new_player)
 
             ServerMessage.send_message_to_player(new_player, ServerMessage.STANDBY)
             
             # Player se conectou com sucesso
             i+=1
-            print(f"Jogador conectado: {player_name}")
+            print(f"Jogador conectado: {new_player.name}")
 
+        # Lida com mensagem inicial completamente inválida
         else:
-            # LIDAR COM MENSAGEM INICIAL INVÁLIDA
-            pass
+            ServerMessage.send_message(client_socket, Error.UNEXPECTED_MESSAGE)
+            client_socket.close()
+            print(f"Erro: Jogador de {client_address} enviou mensagem inicial inesperada ('{initial_message}'). Conexão encerrada.")
+            continue
 
     print(f"Todos os {numero_jogadores} jogadores conectados. Preparando o jogo.")
     return connected_players
