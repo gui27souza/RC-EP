@@ -3,7 +3,7 @@ from typing import List
 from ..models import Player
 
 from ..models import Error
-from . import message
+from ..models import Message, ServerMessage
 
 def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
     '''
@@ -22,15 +22,15 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
         client_socket, client_address = server_socket.accept()
 
         # Recebe NEWPLAYER <nome>
-        initial_message = message.receive_message(client_socket)
+        initial_message = Message.receive_message(client_socket)
 
         if initial_message and initial_message.startswith("NEWPLAYER "):
             
             # Recorta apenas o nome do jogador da mensagem
-            player_name = initial_message.split(' ', 1)[1]
+            player_name = initial_message.split(' ', 1)[1].strip()
 
             if not player_name or ' ' in player_name or not player_name.isalnum():
-                message.send_message(client_socket, Error.INVALID_PLAYER_NAME})
+                ServerMessage.send_message(client_socket, Error.INVALID_PLAYER_NAME)
                 client_socket.close()
                 print(f"Erro: Jogador de {client_address} enviou nome inválido ('{player_name}'). Conexão encerrada.")
                 continue
@@ -42,9 +42,7 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
                 address=client_address
             ))
 
-            # Envia resposta de STANDBY ao cliente
-            standby_msg = "STANDBY\r\n"
-            client_socket.sendall(standby_msg.encode('ascii'))
+            ServerMessage.send_message_to_player(new_player, ServerMessage.STANDBY)
             
             # Player se conectou com sucesso
             i+=1
