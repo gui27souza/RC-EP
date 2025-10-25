@@ -1,6 +1,6 @@
 import socket
 
-from .models import GameState, ServerMessage
+from app.models import GameState, ServerMessage
 
 from . import server
 

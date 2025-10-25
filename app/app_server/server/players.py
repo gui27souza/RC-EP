@@ -4,10 +4,7 @@ Módulo que lida com operações do fluxo de jogo relacionada a configuração d
 
 from socket import socket
 from typing import List
-from ..models import Player
-
-from ..models import Error
-from ..models import Message, ServerMessage
+from app.models import Player, Error, Message, ServerMessage
 
 def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
     '''

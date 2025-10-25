@@ -1,4 +1,4 @@
-from ...models import Player, GameState, ServerMessage
+from app.models import Player, GameState, ServerMessage
 
 from .validate_guess import validate_guess
 from .process_guess import process_guess

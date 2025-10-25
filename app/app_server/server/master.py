@@ -1,7 +1,7 @@
 import random
 
 from typing import List, Tuple
-from ..models import Player, Error, ServerMessage
+from app.models import Player, Error, ServerMessage
 
 from . import game_flow
 

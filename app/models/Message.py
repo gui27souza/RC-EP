@@ -1,5 +1,5 @@
 from socket import socket
-from ..models import Player
+from .Player import Player
 from typing import List
 
 class Message:

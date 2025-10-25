@@ -1,5 +1,5 @@
 from typing import List
-from ..models import Player, ServerMessage, GameState
+from app.models import Player, ServerMessage, GameState
 
 def abort_game(players: List[Player], error_code:str):
     """Envia a mensagem de erro crítico para todos e fecha os sockets."""

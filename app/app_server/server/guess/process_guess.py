@@ -1,4 +1,4 @@
-from ...models import GameState
+from app.models import GameState
 
 def process_guess(guess_type: str, guess: str, game_state: GameState):
     

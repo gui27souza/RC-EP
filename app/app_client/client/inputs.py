@@ -1,17 +1,12 @@
-'''
-### Funções de Checagem de parâmetros
-'''
-
 import sys
 from typing import Tuple
 
 # Verificação de parâmetros para execução do script de cliente
-def check_client_execution_parameters() -> Tuple[str, str, int]:
+def check() -> Tuple[str, str, int]:
   '''
-  #### Checagem de parâmetros client
-  - Checa os parâmetros de execução do script de cliente
-  - Retorna o nome do jogador, o ip e a porta
-  - Caso o ip e a porta não sejam definidos, por default é 127.0.0.1:6891
+  Checa os parâmetros de execução do script de cliente.\n
+  Retorna o nome do jogador, o ip e a porta.\n
+  Caso o ip e a porta não sejam definidos, por default é 127.0.0.1:6891
   '''
   
   try:

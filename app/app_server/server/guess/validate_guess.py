@@ -1,5 +1,5 @@
 from typing import Tuple
-from ...models import GameState, Error
+from app.models import GameState, Error
 
 def validate_guess(guess: str, game_state: GameState) -> Tuple[str, str, str|None]:
     """
