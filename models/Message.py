@@ -69,13 +69,8 @@ class ServerMessage(Message):
 class ClientMessage(Message):
 
     @staticmethod
-    def NEWPLAYER(player_name):
-        return f"NEWPLAYER {player_name}"
-
+    def NEWPLAYER(player_name): return f"NEWPLAYER {player_name}"
     @staticmethod
-    def WORD(word):
-        return f"WORD {word}"
-
+    def WORD(word): return f"WORD {word}"
     @staticmethod
-    def GUESS(type, guess):
-        return f"GUESS {type} {guess}"
+    def GUESS(type, guess): return f"GUESS {type} {guess}"
