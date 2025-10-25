@@ -34,7 +34,9 @@ def run_game():
         master, word = server.master.master_setup(connected_players)
 
         # Reinicia o jogo caso haja algum erro no setup do Mestre
-        if not master or not word: continue
+        if not master or not word: 
+            print("Reiniciando jogo devido a problemas no setup do jogador Mestre...")
+            continue
 
         # Inicia jogo
         game_state = GameState(
@@ -65,5 +67,7 @@ def run_game():
                 )
                 break
 
+            # Atualiza o player atual
             current_player_index += 1
-            if current_player_index == total_common_players: current_player_index = 0
+            if current_player_index == total_common_players: 
+                current_player_index = 0
