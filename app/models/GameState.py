@@ -14,7 +14,7 @@ class GameState:
     '''Jogador Mestre'''
     lives: int = 7
     '''Vidas do jogo. Se chegar em 0, o jogo acaba'''
-    guesses: List[str] = []
+    guesses: List[str] = field(default_factory=list)
     '''Lista de palpites realizados pelos jogadores'''
 
     word_array: List[str] = field(init=False)

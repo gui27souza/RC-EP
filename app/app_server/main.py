@@ -82,3 +82,6 @@ def run_game():
             current_player_index += 1
             if current_player_index == total_common_players: 
                 current_player_index = 0
+
+if __name__ == "__main__":
+    run_game()
