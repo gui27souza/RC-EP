@@ -4,14 +4,12 @@ class Error:
     INVALID_FORMAT = "ERROR INVALID_FORMAT"
     '''mensagem de erro enviada sempre que houver erro de formatação da mensagem recebida'''
 
-    # done
     INVALID_MASTER_MESSAGE = "ERROR INVALID_MASTER_MESSAGE"
     '''mensagem enviada para todos os jogadores caso o jogador mestre não envie uma palavra válida (não respondeu com mensagem WORD, ou a palavra estava ausente, ou a palavra contém caracteres inválidos'''
 
     UNEXPECTED_MESSAGE = "ERROR UNEXPECTED_MESSAGE"
     '''mensagem de erro enviada sempre que a mensagem recebida não for uma mensagem de erro, mas não for um dos tipos de mensagem esperada pelo protocolo naquele ponto de execução.'''
 
-    # done
     INVALID_PLAYER_NAME = "ERROR INVALID_PLAYER_NAME"
     '''mensagem de erro enviada pelo servidor ao cliente se o  nome fornecido pela mensagem NEWPLAYER for inválido. O nome é considerado inválido se estiver vazio, se contiver espaços, ou se contiver caracteres não alfanuméricos.'''
 

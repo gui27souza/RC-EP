@@ -1,15 +1,13 @@
 import socket
 
-from .models import Player, GameState
-from .models import Message, ServerMessage, ClientMessage
+from .models import GameState, ServerMessage
 
-from .shared import check_inputs
 from . import server
 
 def run_game():
 
     # Verificação de parâmetros
-    total_players, porta = check_inputs.server()
+    total_players, porta = server.inputs.check()
 
     # Criação do objeto socket
     server_socket = socket.socket(
@@ -25,8 +23,8 @@ def run_game():
     # Abre X conexões, onde X é o número de jogadores
     server_socket.listen(total_players)
 
+    # Loop principal do Servidor
     while True:
-
         print("Iniciando novo jogo...")
 
         # Aguarda e armazena todos os jogadores
@@ -44,15 +42,15 @@ def run_game():
             all_players=connected_players,
             master_player=master
         )
-        
         ServerMessage.send_message_to_all_players(connected_players, f"NEWGAME {game_state.lives} {len(game_state.word)}")
 
+        # Loop principal do jogo
         current_player_index = 0
         total_common_players = len(game_state.common_players)
         while True:
-            
             current_player = game_state.common_players[current_player_index]
 
+            # Recebe e processa palpite
             ServerMessage.send_message_to_player(current_player, "YOURTURN")
             server.guess.deal_guess(current_player)
 
