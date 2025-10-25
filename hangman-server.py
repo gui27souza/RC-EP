@@ -66,6 +66,17 @@ def run_game():
                     )
                 )
                 break
+            
+            # Manda o status do jogo para todos os jogadores
+            ServerMessage.send_message_to_all_players(
+                game_state.all_players, 
+                ServerMessage.STATUS(
+                    game_state.lives,
+                    ''.join(game_state.word_progress),
+                    current_player.name,
+                    guess_str if guess_str else 'palpite-invalido'
+                )
+            )
 
             # Atualiza o player atual
             current_player_index += 1
