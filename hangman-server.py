@@ -53,6 +53,16 @@ def run_game():
             # Recebe e processa palpite
             ServerMessage.send_message_to_player(current_player, "YOURTURN")
             guess_str = server.guess.deal_guess(current_player)
+
+            # Verifica se o jogo deve encerrar
+            game_over_status = server.game_flow.is_game_over()
+            if game_over_status:
+                ServerMessage.send_message_to_all_players(
+                    connected_players, 
+                    ServerMessage.GAMEOVER(
+                        game_over_status, current_player, game_state.word
+                    )
+                )
                 break
 
             current_player_index += 1
