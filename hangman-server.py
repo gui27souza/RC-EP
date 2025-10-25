@@ -52,10 +52,7 @@ def run_game():
 
             # Recebe e processa palpite
             ServerMessage.send_message_to_player(current_player, "YOURTURN")
-            server.guess.deal_guess(current_player)
-
-            if game_over():
-                ServerMessage.send_message_to_all_players(connected_players, ServerMessage.GAMEOVER(x, y, z))
+            guess_str = server.guess.deal_guess(current_player)
                 break
 
             current_player_index += 1
