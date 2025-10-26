@@ -28,5 +28,5 @@ def check() -> Tuple[int, int]:
 
   # Erro - Parâmetros inválidos
   except Exception:
-    print("\nUso correto dos parâmetros: python3 hangman-server.py <numero-de-jogadores> [<porta>]\n")
+    print("\nUso correto dos parâmetros: python3 -m app.app_server.main <numero-de-jogadores> [<porta>]\n")
     sys.exit(1)

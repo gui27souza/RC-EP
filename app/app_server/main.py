@@ -1,4 +1,4 @@
-import socket
+import socket, sys
 
 from app.models import GameState, ServerMessage
 
@@ -84,4 +84,8 @@ def run_game():
                 current_player_index = 0
 
 if __name__ == "__main__":
-    run_game()
+    try:
+        run_game()
+    except KeyboardInterrupt:
+        print("\n\nServidor encerrado pelo usuário.\n")
+        sys.exit(0)
