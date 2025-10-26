@@ -74,3 +74,15 @@ class ClientMessage(Message):
     def WORD(word): return f"WORD {word}"
     @staticmethod
     def GUESS(type, guess): return f"GUESS {type} {guess}"
+
+    @classmethod
+    def send_message_to_server(cls, client_socket: socket, message: str):
+        """Função auxiliar para enviar uma mensagem ao servidor."""
+        try: cls.send_message(client_socket, message)
+        except:
+            print(f"Aviso: Não foi possível enviar mensagem para o servidor!\nMensagem: '{message}\n'")
+
+    @classmethod
+    def receive_message_from_server(cls, client_socket: socket):
+        """Função auxiliar para receber uma mensagem do servidor."""
+        return cls.receive_message(client_socket)
