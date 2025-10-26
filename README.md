@@ -1,14 +1,11 @@
-# Como iniciar o repo para ajudar no desenvolvimento?
+# Como executar?
 
-- Tenha Python na sua máquina - [link de download](https://www.python.org/downloads/)
-- No terminal, na pasta do repo, digite:
+## Servidor
+- No terminal, esteja na raíz do repositório.
+- Use o comando abaixo:
 ```
-python3 -m venv venv
-```
-
-- Em seguida, baixe as libs necessárias com o seguinte comando:
-```
-pip install -r requirements.txt
+python3 -m app.app_server.main <numero-de-jogadores> [<porta>]
 ```
 
-- Seu ambiente está pronto para apoiar no desenvolvimento do projeto!!
+```
+```
