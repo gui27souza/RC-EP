@@ -44,7 +44,14 @@ def run_game():
             all_players=connected_players,
             master_player=master
         )
-        ServerMessage.send_message_to_all_players(connected_players, f"NEWGAME {game_state.lives} {len(game_state.word)}")
+        # Anuncia o início do jogo
+        ServerMessage.send_message_to_all_players(
+            connected_players, 
+            ServerMessage.NEWGAME(
+                game_state.lives,
+                len(game_state.word)
+            )
+        )
 
         # Loop principal do jogo
         current_player_index = 0
@@ -53,7 +60,7 @@ def run_game():
             current_player = game_state.common_players[current_player_index]
 
             # Recebe e processa palpite
-            ServerMessage.send_message_to_player(current_player, "YOURTURN")
+            ServerMessage.send_message_to_player(current_player, ServerMessage.YOURTURN)
             guess_str = server.guess.deal_guess(current_player)
 
             # Verifica se o jogo deve encerrar
