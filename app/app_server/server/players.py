@@ -8,7 +8,7 @@ from app.models import Player, Error, Message, ServerMessage
 
 def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
     '''
-    Busca o número de jogadores especificado, retornando uma lista de dicionários, onde cada um tem o socket, nome e endereço do cliente
+    Busca o número de jogadores especificado, retornando uma lista de objetos Player, onde cada um tem o socket, nome e endereço do cliente
     '''
 
     connected_players: List[Player] = []
@@ -16,7 +16,7 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
     i = 1
     while i<=numero_jogadores:
 
-        print(f"Aguardando jogador {i}")
+        print(f"Aguardando jogador {i}...")
 
         # Aceita a conexão TCP
         client_socket, client_address = server_socket.accept()
@@ -49,7 +49,7 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
             
             # Player se conectou com sucesso
             i+=1
-            print(f"Jogador conectado: {new_player.name} ({new_player.address})")
+            print(f"Jogador conectado: {new_player.name}\n")
 
         # Lida com mensagem inicial completamente inválida
         else:

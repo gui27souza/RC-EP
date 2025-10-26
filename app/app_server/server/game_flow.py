@@ -12,12 +12,13 @@ def abort_game(players: List[Player], error_code:str):
 def is_game_over(game_state: GameState) -> str:
     """Verifica se o jogo deve seguir após cada rodada"""
     
+    # Jogo acabou - Player perdeu
     if game_state.lives == 0:
-        #### PERDEU
         return "LOSE"
 
+    # Jogo acabou - Player ganhou
     if not '_' in game_state.word_progress:
-        #### GANHOU
         return "WIN"
     
+    # Jogo segue
     return None

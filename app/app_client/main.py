@@ -1,3 +1,19 @@
-from . import client
+import sys, traceback
 
-nome_jogador, ip, porta = client.inputs.check()
+from .run import run_game
+
+if __name__ == "__main__":
+    
+    try:
+        run_game()
+
+    except KeyboardInterrupt:
+        print("\n\nCliente encerrado pelo usuário.\n")
+        sys.exit(0)
+
+    except Exception as e:
+        print(f"\n\n[ERRO FATAL] O cliente encontrou um erro inesperado: {e}")
+        print("--- TRACEBACK COMPLETO ---")
+        traceback.print_exc() 
+        print("--------------------------")
+        sys.exit(1)
