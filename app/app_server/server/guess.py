@@ -1,7 +1,7 @@
 from typing import Tuple
-from app.models import Player, GameState, ServerMessage, Error
+from app.models import Player, ServerGameState, ServerMessage, Error
 
-def deal_guess(turn_player: Player, game_state: GameState) -> str:
+def deal_guess(turn_player: Player, game_state: ServerGameState) -> str:
 
     guess = ServerMessage.receive_message_from_player(turn_player)
     guess_type, guess_str, guess_error = _validate_guess(guess, game_state)
@@ -22,7 +22,7 @@ def deal_guess(turn_player: Player, game_state: GameState) -> str:
 # --------------- Funções Auxiliares ---------------
 
 
-def _validate_guess(guess: str, game_state: GameState) -> Tuple[str, str, str|None]:
+def _validate_guess(guess: str, game_state: ServerGameState) -> Tuple[str, str, str|None]:
     """
     Valida o palpite, retornando o tipo do palpite (LETTER ou WORD), o palpite em upper, e o erro se for o caso.
     """
@@ -48,7 +48,7 @@ def _validate_guess(guess: str, game_state: GameState) -> Tuple[str, str, str|No
     
     return None, None, Error.UNEXPECTED_MESSAGE
 
-def _validate_guess_letter(guess: str, game_state: GameState) -> Tuple[str, str|None]:
+def _validate_guess_letter(guess: str, game_state: ServerGameState) -> Tuple[str, str|None]:
     """
     Valida palpilte de palavra. 
     Retorna o palpite e o erro caso não seja válido
@@ -61,7 +61,7 @@ def _validate_guess_letter(guess: str, game_state: GameState) -> Tuple[str, str|
         
     return guess, None
 
-def _validate_guess_word(guess: str, game_state: GameState) -> Tuple[str, str|None]:
+def _validate_guess_word(guess: str, game_state: ServerGameState) -> Tuple[str, str|None]:
     """
     Valida palpilte de palavra. 
     Retorna o palpite e o erro caso não seja válido
@@ -77,7 +77,7 @@ def _validate_guess_word(guess: str, game_state: GameState) -> Tuple[str, str|No
 
 
 
-def _process_guess(guess_type: str, guess: str, game_state: GameState):
+def _process_guess(guess_type: str, guess: str, game_state: ServerGameState):
     
     if guess_type == "LETTER":
         if guess in game_state.word_array:

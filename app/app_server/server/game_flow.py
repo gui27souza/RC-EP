@@ -1,5 +1,5 @@
 from typing import List
-from app.models import Player, ServerMessage, GameState
+from app.models import Player, ServerMessage, ServerGameState
 
 def abort_game(players: List[Player], error_code:str):
     """Envia a mensagem de erro crítico para todos e fecha os sockets."""
@@ -9,7 +9,7 @@ def abort_game(players: List[Player], error_code:str):
         except: 
             print(f"Não foi possível encerrar conexão de forma segura com o jogador {player.name} ({player.socket}).")
 
-def is_game_over(game_state: GameState) -> str:
+def is_game_over(game_state: ServerGameState) -> str:
     """Verifica se o jogo deve seguir após cada rodada"""
     
     # Jogo acabou - Player perdeu

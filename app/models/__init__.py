@@ -1,4 +1,4 @@
 from .Message import Message, ServerMessage, ClientMessage
 from .Error import Error
-from .GameState import GameState
+from .GameState import ServerGameState
 from .Player import Player

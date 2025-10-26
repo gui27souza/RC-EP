@@ -1,7 +1,7 @@
 import socket
 
 from . import client
-from app.models import ClientMessage, GameState
+from app.models import ClientMessage, ServerGameState
 
 def run_game():
 

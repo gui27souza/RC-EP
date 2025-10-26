@@ -4,7 +4,7 @@ from typing import List
 from .Player import Player
 
 @dataclass
-class GameState:
+class ServerGameState:
 
     word: str
     '''Palavra a ser advinhada pelos jogadores'''

@@ -19,6 +19,7 @@ def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
         return None, None
     
     # Loop que aguarda uma palavra válida do Mestre
+    print("Aguardando palavra do jogador mestre...")
     while True:
 
         try:

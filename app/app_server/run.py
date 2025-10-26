@@ -1,6 +1,6 @@
 import socket
 
-from app.models import GameState, ServerMessage
+from app.models import ServerGameState, ServerMessage
 
 from . import server
 
@@ -41,7 +41,7 @@ def run_game():
         print("Jogo iniciado com sucesso!")
 
         # Inicia jogo
-        game_state = GameState(
+        game_state = ServerGameState(
             word=word,
             all_players=connected_players,
             master_player=master
