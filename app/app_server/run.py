@@ -18,7 +18,7 @@ def run_game():
     # Inicia o servidor no endereço especificado
     server_address = ('0.0.0.0', porta) # O endereço 0.0.0.0 permite que o servidor escute em todas as interfaces
     server_socket.bind(server_address)
-    print(f"Servidor iniciado na porta {porta}")
+    print(f"Servidor inicializadodo na porta {porta}")
 
     # Abre X conexões, onde X é o número de jogadores
     server_socket.listen(total_players)
@@ -37,6 +37,8 @@ def run_game():
         if not master or not word: 
             print("Reiniciando jogo devido a problemas no setup do jogador Mestre...")
             continue
+
+        print("Jogo iniciado com sucesso!")
 
         # Inicia jogo
         game_state = GameState(
@@ -58,6 +60,7 @@ def run_game():
         total_common_players = len(game_state.common_players)
         while True:
             current_player = game_state.common_players[current_player_index]
+            print(f"Vez do jogador {current_player.name}.")
 
             # Recebe e processa palpite
             ServerMessage.send_message_to_player(current_player, ServerMessage.YOURTURN)
@@ -66,13 +69,23 @@ def run_game():
             # Verifica se o jogo deve encerrar
             game_over_status = server.game_flow.is_game_over()
             if game_over_status:
+                
+                if game_over_status == "LOSE":
+                    print("Jogadores perderam!")
+                elif game_over_status == "WIN":
+                    print(f"Jogador {current_player.name} advinhou a palavra!")
+                
+                print("Finalizando jogo...")
                 ServerMessage.send_message_to_all_players(
                     connected_players, 
                     ServerMessage.GAMEOVER(
                         game_over_status, current_player, game_state.word
                     )
                 )
+                
                 break
+
+            print(f"Continuando jogo. Estado atual: {''.join(game_state.word_progress)}, vidas restantes: {game_state.lives}")
             
             # Manda o status do jogo para todos os jogadores
             ServerMessage.send_message_to_all_players(
