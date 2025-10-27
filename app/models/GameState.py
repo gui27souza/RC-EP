@@ -39,3 +39,22 @@ class ServerGameState:
         self.word_array = word_array
         self.word_progress = empty_word_array
         self.common_players = common_players
+
+@dataclass 
+class ClientGameState:
+    
+    lives: int
+    '''Vidas do jogo. Se chegar em 0, o jogo acaba'''
+    word_length: int
+    '''Tamanho da palavra a ser advinhada'''
+    is_master: bool
+    '''Sinalizador de se o jogador é Mestre'''
+
+    guesses: List[str] = field(init=False, default_factory=list)
+    '''Lista de palpites realizados pelos jogadores'''
+    word_progress: List[str] = field(init=False)
+    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "-"'''
+
+    # Construtor
+    def __post_init__(self):
+        self.word_progress = ['-']*self.word_length

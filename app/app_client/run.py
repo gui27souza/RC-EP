@@ -1,7 +1,7 @@
 import socket
 
 from . import client
-from app.models import ClientMessage, ServerGameState
+from app.models import ClientMessage, ClientGameState
 
 def run_game():
 
@@ -23,6 +23,8 @@ def run_game():
     if response.startswith("STANDBY"):
         print("Aguardando início do jogo...")
 
+    game_state: ClientGameState
+    is_master = False
     while True:
         
         response = ClientMessage.receive_message_from_server(client_socket)
