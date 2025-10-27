@@ -45,9 +45,20 @@ def run_game():
 
 
         ### NEWGAME
-        elif response.startswith("NEWGAME"):
+        elif response.startswith("NEWGAME "):
             
-            pass
+            response_parts = response.split(' ')
+            
+            try:
+                lives = int(response_parts[1])
+                word_length = int(response_parts[2])
+            
+                game_state = ClientGameState(
+                    lives, word_length, is_master
+                )
+            except (ValueError, IndexError):
+                print(f"Mensagem de NEWGAME mal formatada: {response}")
+
 
         ### YOURTURN
         elif response.startswith("YOURTURN"):
