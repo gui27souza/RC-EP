@@ -19,6 +19,10 @@ def run_game():
     # Envia mensagem de anuncio de novo player, com o nome do jogador
     ClientMessage.send_message_to_server(client_socket, ClientMessage.NEWPLAYER(nome_jogador))
 
+    response = ClientMessage.receive_message_from_server(client_socket)
+    if response.startswith("STANDBY"):
+        print("Aguardando início do jogo...")
+
     while True:
         
         response = ClientMessage.receive_message_from_server(client_socket)
@@ -28,12 +32,7 @@ def run_game():
 
             pass
 
-        ### STANDBY
-        elif response.startswith("STANDBY"):
-            
-            pass
-
-        ### MASTER ###
+        ### MASTER
         elif response.startswith("MASTER"):
             
             pass
