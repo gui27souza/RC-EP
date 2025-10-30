@@ -13,13 +13,13 @@ echo "Iniciando Servidor e 3 Clientes..."
 
 # 1. INICIAR O SERVIDOR
 # Note o uso de aspas simples para encapsular o comando completo:
-$TERMINAL --title="Servidor Forca" --command="$PYTHON_CMD -m $SERVER_APP $NUM_JOGADORES $PORTA" &
+$TERMINAL --title="Servidor Forca" -- /bin/sh -c "$PYTHON_CMD -m $SERVER_APP $NUM_JOGADORES $PORTA" &
 
 sleep 2
 
 # 2. INICIAR OS CLIENTES
-$TERMINAL --title="Cliente Alice" --command="$PYTHON_CMD -m $CLIENT_APP Alice $IP:$PORTA" &
-$TERMINAL --title="Cliente Bob" --command="$PYTHON_CMD -m $CLIENT_APP Bob $IP:$PORTA" &
-$TERMINAL --title="Cliente Carla" --command="$PYTHON_CMD -m $CLIENT_APP Carla $IP:$PORTA" &
+$TERMINAL --title="Cliente Alice" -- /bin/sh -c "$PYTHON_CMD -m $CLIENT_APP Alice $IP:$PORTA" &
+$TERMINAL --title="Cliente Bob" -- /bin/sh -c "$PYTHON_CMD -m $CLIENT_APP Bob $IP:$PORTA" &
+$TERMINAL --title="Cliente Carla" -- /bin/sh -c "$PYTHON_CMD -m $CLIENT_APP Carla $IP:$PORTA" &
 
 echo "Prontos! Verifique as novas janelas do terminal."
