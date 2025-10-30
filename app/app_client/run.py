@@ -66,9 +66,9 @@ def run_game():
             client.turn.handle_yourturn(client_socket)
 
         ### STATUS
-        elif response.startswith("STATUS"):
+        elif response.startswith("STATUS "):
 
-            pass
+            game_state = client.status.update(game_state, response)
 
         ### GAMEOVER
         elif response.startswith("GAMEOVER"):
