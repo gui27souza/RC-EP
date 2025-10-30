@@ -16,6 +16,7 @@ def run_game():
     )
 
     # Inicia o servidor no endereço especificado
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_address = ('0.0.0.0', porta) # O endereço 0.0.0.0 permite que o servidor escute em todas as interfaces
     server_socket.bind(server_address)
     print(f"Servidor inicializadodo na porta {porta}")
