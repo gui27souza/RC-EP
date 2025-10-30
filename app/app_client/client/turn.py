@@ -26,4 +26,7 @@ def handle_yourturn(client_socket: socket):
             )
         )
 
+        response = ClientMessage.receive_message_from_server(client_socket)
+        if response == "OK": break
+
         #### LIDAR COM RESPOSTA DO SERVER
