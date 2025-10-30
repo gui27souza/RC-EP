@@ -34,7 +34,7 @@ def _validate_guess(guess: str, game_state: ServerGameState) -> Tuple[str, str, 
             guess = guess[7:].strip().upper()
             guess_type = "LETTER"
 
-            validated_guess, guess_error = _validate_guess_letter(guess)
+            validated_guess, guess_error = _validate_guess_letter(guess, game_state)
         
         elif guess.startswith("WORD "):
             guess = guess[5:].strip().upper()

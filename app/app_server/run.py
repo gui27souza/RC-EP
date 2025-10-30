@@ -67,7 +67,7 @@ def run_game():
             guess_str = server.guess.deal_guess(current_player, game_state)
 
             # Verifica se o jogo deve encerrar
-            game_over_status = server.game_flow.is_game_over()
+            game_over_status = server.game_flow.is_game_over(game_state)
             if game_over_status:
                 
                 if game_over_status == "LOSE":
@@ -79,7 +79,7 @@ def run_game():
                 ServerMessage.send_message_to_all_players(
                     connected_players, 
                     ServerMessage.GAMEOVER(
-                        game_over_status, current_player, game_state.word
+                        game_over_status, current_player.name, game_state.word
                     )
                 )
                 
