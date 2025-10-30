@@ -51,7 +51,7 @@ class ClientGameState:
     '''Sinalizador de se o jogador é Mestre'''
 
     guesses: List[str] = field(init=False, default_factory=list)
-    '''Lista de palpites realizados pelos jogadores'''
+    '''Lista de palpites errados realizados pelos jogadores'''
     word_progress: List[str] = field(init=False)
     '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "_"'''
 

@@ -7,6 +7,8 @@ def run_game():
 
     nome_jogador, ip, porta = client.inputs.check()
 
+    print("\nConectando ao servidor...")
+
     # Criação do objeto socket
     client_socket = socket.socket(
         socket.AF_INET,     # especifica que o endereço será IPv4
@@ -21,7 +23,7 @@ def run_game():
 
     response = ClientMessage.receive_message_from_server(client_socket)
     if response.startswith("STANDBY"):
-        print("Aguardando início do jogo...")
+        print("Aguardando o jogo começar...")
 
     game_state: ClientGameState
     is_master = False
@@ -56,6 +58,9 @@ def run_game():
                 game_state = ClientGameState(
                     lives, word_length, is_master
                 )
+
+                print(f"Jogo iniciado!\nVidas para advinhar: {game_state.lives}\nTamanho da palavra: {game_state.word_length} letras.")
+
             except (ValueError, IndexError):
                 print(f"Mensagem de NEWGAME mal formatada: {response}")
 

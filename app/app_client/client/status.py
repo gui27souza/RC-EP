@@ -12,7 +12,7 @@ def update(game_state: ClientGameState, status_message: str):
     game_state.lives = lives
     game_state.word_progress = word_progress.split()
 
-    print(f"jogador {last_player} fez uma jogada: {last_guess}. Restam {lives} vidas.\n")
+    print(f"jogador {last_player} fez uma jogada: {last_guess}. Restam {lives} vidas.")
     print(
         _forca_by_lives(int(lives), word_progress)
     )
@@ -32,7 +32,7 @@ def _forca_by_lives(lives: int, word_progress: str):
         |   
         |
         ------
-        """ + word_progress
+        """ + word_progress + "\n"
 
     elif lives == 6:
         return """
@@ -43,7 +43,7 @@ def _forca_by_lives(lives: int, word_progress: str):
         |   
         |
         ------
-        """ + word_progress
+        """ + word_progress + "\n"
 
     elif lives == 5:
         return """
@@ -55,7 +55,7 @@ def _forca_by_lives(lives: int, word_progress: str):
         |   
         |
         ------
-        """ + word_progress
+        """ + word_progress + "\n"
 
     elif lives == 4:
         return """
@@ -66,7 +66,7 @@ def _forca_by_lives(lives: int, word_progress: str):
         |   
         |
         ------
-        """ + word_progress
+        """ + word_progress + "\n"
 
     elif lives == 3:
         return """
@@ -77,7 +77,7 @@ def _forca_by_lives(lives: int, word_progress: str):
         |   
         |
         ------
-        """ + word_progress
+        """ + word_progress + "\n"
 
     elif lives == 2:
         return """
@@ -88,7 +88,7 @@ def _forca_by_lives(lives: int, word_progress: str):
         |  / 
         |
         ------
-        """ + word_progress
+        """ + word_progress + "\n"
 
     elif lives == 1 or lives == 0:
         return """
@@ -99,7 +99,7 @@ def _forca_by_lives(lives: int, word_progress: str):
         |  / \\
         |
         ------
-        """ + word_progress
+        """ + word_progress + "\n"
 
     else:
-        return "Valor de vidas inválido"
+        return "Valor de vidas inválido.\n"
