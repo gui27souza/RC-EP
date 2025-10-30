@@ -7,7 +7,7 @@ def master_setup(client_socket: socket) -> bool:
 
     while True:
         
-        word_input = input("Digite a palavra:")
+        word_input = input("Digite a palavra: ")
 
         if not word_input or not word_input.isalpha() or '-' in word_input:
             print("\nPalavra inválida. Use apenas letras e não deixe espaços.\n")

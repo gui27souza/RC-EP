@@ -53,7 +53,7 @@ class ClientGameState:
     guesses: List[str] = field(init=False, default_factory=list)
     '''Lista de palpites realizados pelos jogadores'''
     word_progress: List[str] = field(init=False)
-    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "-"'''
+    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "_"'''
 
     # Construtor
     def __post_init__(self):
