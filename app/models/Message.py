@@ -51,7 +51,11 @@ class ServerMessage(Message):
     @classmethod
     def send_message_to_player(cls, player: Player, message: str):
         """Função auxiliar para enviar uma mensagem a um jogador."""
-        try: cls.send_message(player.socket, message)
+        try: 
+            cls.send_message(player.socket, message)
+            print("\n=======================================")
+            print(f"DEBUG - Enviei a mensagem para o jogador {player.name}:\n{message}")
+            print("=======================================\n")
         except:
             print(f"Aviso: Não foi possível enviar mensagem para o jogador {player.name}")
 
@@ -63,7 +67,14 @@ class ServerMessage(Message):
     @classmethod
     def receive_message_from_player(cls, player: Player) -> str:
         """Função auxiliar para receber uma mensagem de um jogador."""
-        return cls.receive_message(player.socket)
+
+        response = cls.receive_message(player.socket)
+
+        print("\n=======================================")
+        print(f"DEBUG - Recebi a mensagem do jogador {player.name}:\n{response}")
+        print("=======================================\n")
+
+        return response
 
 
 class ClientMessage(Message):
@@ -78,11 +89,22 @@ class ClientMessage(Message):
     @classmethod
     def send_message_to_server(cls, client_socket: socket, message: str):
         """Função auxiliar para enviar uma mensagem ao servidor."""
-        try: cls.send_message(client_socket, message)
+        try: 
+            cls.send_message(client_socket, message)
+            print("\n=======================================")
+            print(f"DEBUG - Enviei a mensagem:\n{message}")
+            print("=======================================\n")
         except:
             print(f"Aviso: Não foi possível enviar mensagem para o servidor!\nMensagem: '{message}\n'")
 
     @classmethod
     def receive_message_from_server(cls, client_socket: socket):
         """Função auxiliar para receber uma mensagem do servidor."""
-        return cls.receive_message(client_socket)
+
+        response = cls.receive_message(client_socket)
+
+        print("\n=======================================")
+        print(f"DEBUG - Recebi a mensagem:\n{response}")
+        print("=======================================\n")
+
+        return response
