@@ -10,12 +10,19 @@ def update(game_state: ClientGameState, status_message: str):
     last_player = status_parts[3]
     last_guess = status_parts[4]
     game_state.lives = lives
-    game_state.word_progress = word_progress.split()
+    game_state.word_progress = list(word_progress)
+
+    if (
+        last_guess not in game_state.word_progress and
+        last_guess != ''.join(game_state.word_progress)
+    ):
+        game_state.guesses.append(last_guess)
 
     print(f"jogador {last_player} fez uma jogada: {last_guess}. Restam {lives} vidas.")
     print(
         _forca_by_lives(int(lives), word_progress)
     )
+    print(f"Palpites errados: {' '.join(game_state.guesses)}")
 
     return game_state
 
