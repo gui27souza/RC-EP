@@ -16,7 +16,16 @@ def run_game():
 
     response = ClientMessage.receive_message_from_server(client_socket)
     if response.startswith("STANDBY"):
-        print("Aguardando o jogo começar...")
+        print("Aguardando o jogo começar...\n")
+    else:
+        ClientMessage.send_message_to_server(
+            client_socket,
+            Error.UNEXPECTED_MESSAGE
+        )
+        client.game_flow.abort_game(
+            client_socket, 1,
+            f"Mensagem inesperada recebida:\n{response}\nEncerrando execução..."
+        )
 
     game_state: ClientGameState
     is_master = False
@@ -37,7 +46,12 @@ def run_game():
                 client.game_flow.abort_game(
                     client_socket, 1,
                     "Partida finalizada por falta de jogadores.\nEncerrando programa...",
-                    1
+                )
+
+            else:
+                client.game_flow.abort_game(
+                    client_socket, 1,
+                    f"Mensagem de erro inesperado recebida:\n{response}\nEncerrando execução..."
                 )
 
         ### MASTER
