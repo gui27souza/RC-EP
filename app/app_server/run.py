@@ -1,6 +1,6 @@
-import socket
+import socket, time
 
-from app.models import ServerGameState, ServerMessage
+from app.models import ServerGameState, ServerMessage, Error
 
 from . import server
 
@@ -56,6 +56,21 @@ def run_game():
         current_player_index = 0
         total_common_players = len(game_state.common_players)
         while True:
+
+            if total_common_players == 0:
+
+                print("Não há mais jogadores comuns.\nFim de jogo.")
+
+                try:
+                    ServerMessage.send_message_to_player(
+                        game_state.master_player,
+                        Error.NOT_ENOUGH_PLAYERS
+                    )
+                except: pass
+
+                time.sleep(1)
+                break
+
             current_player = game_state.common_players[current_player_index]
             print(f"Vez do jogador {current_player.name}.")
 
@@ -65,6 +80,22 @@ def run_game():
             response = ServerMessage.receive_message_from_player(current_player)
 
             if response == None or response == Error.QUIT:
+                
+                if response == Error.QUIT:
+                    ServerMessage.send_message_to_player(
+                        current_player, ServerMessage.OK
+                    )
+
+                game_state.common_players.remove(current_player)
+                total_common_players = len(game_state.common_players)
+
+                if total_common_players > 0:
+                    current_player_index %= total_common_players
+                else:
+                    current_player_index = 0
+
+                continue
+
             elif response.startswith("GUESS "):
                 guess_str = server.guess.deal_guess(current_player, game_state, response)
 
@@ -94,6 +125,13 @@ def run_game():
                         game_over_status, current_player.name, game_state.word
                     )
                 )
+
+                time.sleep(1)
+
+                for player in game_state.all_players:
+                    try: player.socket.close()
+                    except: pass
+                server_socket.close()
                 
                 break
 
@@ -111,6 +149,5 @@ def run_game():
             )
 
             # Atualiza o player atual
-            current_player_index += 1
-            if current_player_index == total_common_players: 
-                current_player_index = 0
+            current_player_index = (current_player_index + 1) % total_common_players
+            time.sleep(1)
