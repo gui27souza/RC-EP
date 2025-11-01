@@ -90,5 +90,6 @@ def run_game():
 
         ### MENSAGEM INESPERADA
         else:
-
-            pass
+            ClientMessage.send_message_to_server(
+                client_socket, Error.UNEXPECTED_MESSAGE
+            )
