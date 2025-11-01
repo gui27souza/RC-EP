@@ -66,7 +66,7 @@ def run_game():
 
         ### NEWGAME
         elif response.startswith("NEWGAME "):
-            client.game_flow.start_game(client_socket, is_master, response)
+            game_state = client.game_flow.start_game(client_socket, is_master, response)
 
         ### YOURTURN
         elif response.startswith("YOURTURN"):

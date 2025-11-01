@@ -26,6 +26,8 @@ def start_game(client_socket: socket, is_master:bool, newgame_response:str):
 
         print(f"Jogo iniciado!\nVidas para advinhar: {game_state.lives}\nTamanho da palavra: {game_state.word_length} letras.")
 
+        return game_state
+
     except (ValueError, IndexError):
         ClientMessage.send_message_to_server(client_socket, Error.INVALID_FORMAT)
         abort_game(
