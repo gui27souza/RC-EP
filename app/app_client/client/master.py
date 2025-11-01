@@ -10,7 +10,13 @@ def master_setup(client_socket: socket) -> bool:
         word_input = input("Digite a palavra: ")
 
         if not word_input or not word_input.isalpha() or '-' in word_input:
-            print("\nPalavra inválida. Use apenas letras e não deixe espaços.\n")
+            print("\nPalavra inválida. Use apenas letras, sem acentos e não deixe espaços.\n")
+            continue
+
+        try:
+            word_input.encode('ascii')
+        except UnicodeEncodeError:
+            print("\nPalavra inválida. Use apenas letras, sem acentos e não deixe espaços.\n")
             continue
 
         ClientMessage.send_message(
