@@ -14,3 +14,5 @@ def setup(ip:str, porta:int):
     server_conn.connect_to_server(client_socket, ip, porta)
 
     client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+
+    return client_socket
