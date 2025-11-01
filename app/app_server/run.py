@@ -61,7 +61,22 @@ def run_game():
 
             # Recebe e processa palpite
             ServerMessage.send_message_to_player(current_player, ServerMessage.YOURTURN)
-            guess_str = server.guess.deal_guess(current_player, game_state)
+
+            response = ServerMessage.receive_message_from_player(current_player)
+
+            if response == None or response == Error.QUIT:
+            elif response.startswith("GUESS "):
+                guess_str = server.guess.deal_guess(current_player, game_state, response)
+
+            elif response.startswith("ERROR "):
+                
+                break
+
+            else:
+                ServerMessage.send_message_to_player(
+                    current_player, Error.UNEXPECTED_MESSAGE
+                )
+                break
 
             # Verifica se o jogo deve encerrar
             game_over_status = server.game_flow.is_game_over(game_state)

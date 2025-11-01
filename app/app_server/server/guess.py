@@ -1,15 +1,14 @@
 from typing import Tuple
 from app.models import Player, ServerGameState, ServerMessage, Error
 
-def deal_guess(turn_player: Player, game_state: ServerGameState) -> str:
 
-    guess = ServerMessage.receive_message_from_player(turn_player)
-    guess_type, guess_str, guess_error = _validate_guess(guess, game_state)
+def deal_guess(turn_player: Player, game_state: ServerGameState, guess_response: str) -> str:
+
+    guess_type, guess_str, guess_error = _validate_guess(guess_response, game_state)
     
-    if guess_error: 
+    if guess_error:
         ServerMessage.send_message_to_player(turn_player, guess_error)
-        return guess_str
-    
+        return None
     if guess_type == "WORD": guess_type_msg = "palavra"
     if guess_type == "LETTER": guess_type_msg = "letra"
 
@@ -67,11 +66,14 @@ def _validate_guess_word(guess: str, game_state: ServerGameState) -> Tuple[str, 
     Retorna o palpite e o erro caso não seja válido
     """
     
-    if not guess.isalpha() or len(guess.split(' ')) != 1: return guess, Error.INVALID_FORMAT
+    if not guess.isalpha() or len(guess.split(' ')) != 1: 
+        return guess, Error.INVALID_FORMAT
 
-    if len(guess) != len(game_state.word): return guess, Error.INVALID_WORD_LENGTH
+    if len(guess) != len(game_state.word): 
+        return guess, Error.INVALID_WORD_LENGTH
 
-    if guess in game_state.guesses: return guess, Error.ALREADY_GUESSED
+    if guess in game_state.guesses: 
+        return guess, Error.ALREADY_GUESSED
 
     return guess, None
 
