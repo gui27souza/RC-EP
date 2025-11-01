@@ -1,7 +1,7 @@
 import socket
 
 from . import client
-from app.models import ClientMessage, ClientGameState
+from app.models import ClientMessage, ClientGameState, Error
 
 def run_game():
 
@@ -31,10 +31,22 @@ def run_game():
         
         response = ClientMessage.receive_message_from_server(client_socket)
 
-        ### ERROR
-        if response.startswith("ERROR"):
+        if response == None:
+            client.game_flow.abort_game(
+                client_socket,
+                "Conexão com o servidor encerrada de forma inesperada.\nEncerrando execução...",
+                1
+            )
 
-            pass
+        ### ERROR
+        elif response.startswith("ERROR"):
+            
+            if response == Error.NOT_ENOUGH_PLAYERS:
+                client.game_flow.abort_game(
+                    client_socket,
+                    "Partida finalizada por falta de jogadores.\nEncerrando programa...",
+                    1
+                )
 
         ### MASTER
         elif response.startswith("MASTER"):
@@ -64,21 +76,17 @@ def run_game():
             except (ValueError, IndexError):
                 print(f"Mensagem de NEWGAME mal formatada: {response}")
 
-
         ### YOURTURN
         elif response.startswith("YOURTURN"):
-
             client.turn.handle_yourturn(client_socket)
 
         ### STATUS
         elif response.startswith("STATUS "):
-
             game_state = client.status.update(game_state, response)
 
         ### GAMEOVER
         elif response.startswith("GAMEOVER"):
             client.game_flow.end_game(client_socket, response)
-
 
         ### MENSAGEM INESPERADA
         else:

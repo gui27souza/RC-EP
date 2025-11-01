@@ -1,5 +1,11 @@
 import sys
 from socket import socket
+
+def abort_game(socket: socket, message:str = None, exit_value: int = 1):
+    if message: print(message)
+    socket.close()
+    sys.exit(exit_value)
+
 def end_game(socket: socket, gameover_message: str):
     message_parts = gameover_message.split()
     result = message_parts[1]
