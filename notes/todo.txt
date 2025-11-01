@@ -5,3 +5,7 @@
     - Ajustar game_state
     - outros
 - Arrumar fluxos: em algumas condições que não são 100% previstas, o fluxo está descarrilhando
+
+- Caso de encerramento de conexões
+    - Servidor fechou conexão com cliente -> cliente recebe um None
+    - Cliente fechou conexão com servidor -> QUIT ou None

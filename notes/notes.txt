@@ -1,0 +1,5 @@
+- Ajuste para tentativa de conexão no meio do jogo aplicado
+
+- modo de debug criado
+
+- Nagle estava travando alguns envios
