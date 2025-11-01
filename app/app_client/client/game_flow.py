@@ -1,9 +1,13 @@
 import sys
 from socket import socket
 
-def abort_game(socket: socket, message:str = None, exit_value: int = 1):
+def abort_game(client_socket: socket, exit_value: int,  message:str = None):
+    
     if message: print(message)
-    socket.close()
+    
+    try:client_socket.close()
+    except: pass
+    
     sys.exit(exit_value)
 
 def end_game(socket: socket, gameover_message: str):

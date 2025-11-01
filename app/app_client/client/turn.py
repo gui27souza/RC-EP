@@ -34,9 +34,8 @@ def handle_yourturn(client_socket: socket):
 
         if response == None:
             game_flow.abort_game(
-                client_socket,
-                "Conexão com o servidor encerrada de forma inesperada.\nEncerrando execução...",
-                1
+                client_socket, 1,
+                "Conexão com o servidor encerrada de forma inesperada.\nEncerrando execução..."
             )
 
         elif response == "OK": 
@@ -54,13 +53,11 @@ def _game_quit(client_socket: socket):
 
     if response == None:
         game_flow.abort_game(
-            client_socket,
-            "Conexão com servidor encerrada, porém sem resposta.",
-            1
+            client_socket, 1,
+            "Conexão com servidor encerrada, porém sem resposta."
         )
     elif response == "OK":
         game_flow.abort_game(
-            client_socket,
-            "Conexão com servidor de forma segura.",
-            0
+            client_socket, 0,
+            "Conexão com servidor de forma segura."
         )

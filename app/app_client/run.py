@@ -26,9 +26,8 @@ def run_game():
 
         if response == None:
             client.game_flow.abort_game(
-                client_socket,
-                "Conexão com o servidor encerrada de forma inesperada.\nEncerrando execução...",
-                1
+                client_socket, 1,
+                "Conexão com o servidor encerrada de forma inesperada.\nEncerrando execução..."
             )
 
         ### ERROR
@@ -36,7 +35,7 @@ def run_game():
             
             if response == Error.NOT_ENOUGH_PLAYERS:
                 client.game_flow.abort_game(
-                    client_socket,
+                    client_socket, 1,
                     "Partida finalizada por falta de jogadores.\nEncerrando programa...",
                     1
                 )
@@ -85,4 +84,8 @@ def run_game():
         else:
             ClientMessage.send_message_to_server(
                 client_socket, Error.UNEXPECTED_MESSAGE
+            )
+            client.game_flow.abort_game(
+                client_socket, 1,
+                f"Mensagem de erro inesperado recebida:\n{response}\nEncerrando execução..."
             )
