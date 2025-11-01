@@ -1,8 +1,7 @@
 import socket, time
 
-from app.models import ServerGameState, ServerMessage, Error
-
 from . import server
+from app.models import ServerGameState, ServerMessage, Error
 
 def run_game():
 

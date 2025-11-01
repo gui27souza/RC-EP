@@ -5,6 +5,7 @@ from app.models import ClientMessage, ClientGameState, Error
 
 def run_game():
 
+    # Verificação de parâmetros
     nome_jogador, ip, porta = client.inputs.check()
 
     print("Conectando ao servidor...")
