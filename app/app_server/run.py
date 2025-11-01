@@ -24,12 +24,13 @@ def run_game():
     # Abre X conexões, onde X é o número de jogadores
     server_socket.listen(total_players)
 
-    # Aguarda e armazena todos os jogadores
-    connected_players = server.players.init(server_socket, total_players)
-
     # Loop principal do Servidor
     while True:
         print("Iniciando novo jogo...")
+
+        # Aguarda e armazena todos os jogadores
+        connected_players = server.players.init(server_socket, total_players)
+
 
         # Define o mestre e a palavra da rodada
         master, word = server.master.master_setup(connected_players)
@@ -39,14 +40,14 @@ def run_game():
             print("Reiniciando jogo devido a problemas no setup do jogador Mestre...")
             continue
 
-        print("Jogo iniciado com sucesso!")
-
         # Inicia jogo
+        print("Jogo iniciado com sucesso!")
         game_state = ServerGameState(
             word=word,
             all_players=connected_players,
             master_player=master
         )
+        
         # Anuncia o início do jogo
         ServerMessage.send_message_to_all_players(
             connected_players, 
