@@ -14,9 +14,11 @@ def run_game():
         socket.AF_INET,     # especifica que o endereço será IPv4
         socket.SOCK_STREAM  # especifica que o transporte será TCP
     )
-
+    
     # Conecta com o servidor pelo socket
     client.server_conn.connect_to_server(client_socket, ip, porta)
+
+    client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
     # Envia mensagem de anuncio de novo player, com o nome do jogador
     ClientMessage.send_message_to_server(client_socket, ClientMessage.NEWPLAYER(nome_jogador))

@@ -2,11 +2,11 @@
 Módulo que lida com operações do fluxo de jogo relacionada a configuração de Players
 '''
 
-from socket import socket
+import socket
 from typing import List
 from app.models import Player, Error, Message, ServerMessage
 
-def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
+def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
     '''
     Busca o número de jogadores especificado, retornando uma lista de objetos Player, onde cada um tem o socket, nome e endereço do cliente
     '''
@@ -20,6 +20,7 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
 
         # Aceita a conexão TCP
         client_socket, client_address = server_socket.accept()
+        client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
         # Recebe NEWPLAYER <nome>
         initial_message = Message.receive_message(client_socket)
