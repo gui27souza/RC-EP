@@ -2,11 +2,9 @@ from socket import socket
 from .Player import Player
 from typing import List
 
-debug_mode = True
+from app.debug import print_debug
 
 class Message:
-
-    OK = "OK"
 
     @staticmethod
     def send_message(socket_end: socket, message: str):
@@ -40,6 +38,7 @@ class Message:
 
 class ServerMessage(Message):
 
+    OK = "OK"
     STANDBY = "STANDBY"
     MASTER = "MASTER"
     @staticmethod
@@ -58,10 +57,7 @@ class ServerMessage(Message):
         
             cls.send_message(player.socket, message)
         
-            if debug_mode:
-                print("\n=======================================")
-                print(f"DEBUG - Enviei a mensagem para o jogador {player.name}:\n{message}")
-                print("=======================================\n")
+            print_debug(f"Enviei a mensagem para o jogador {player.name}:\n{message}")
         
         except:
             print(f"Aviso: Não foi possível enviar mensagem para o jogador {player.name}")
@@ -77,10 +73,7 @@ class ServerMessage(Message):
 
         response = cls.receive_message(player.socket)
 
-        if debug_mode:
-            print("\n=======================================")
-            print(f"DEBUG - Recebi a mensagem do jogador {player.name}:\n{response}")
-            print("=======================================\n")
+        print_debug(f"Recebi a mensagem do jogador {player.name}:\n{response}")
 
         return response
 
@@ -101,10 +94,7 @@ class ClientMessage(Message):
             
             cls.send_message(client_socket, message)
             
-            if debug_mode:
-                print("\n=======================================")
-                print(f"DEBUG - Enviei a mensagem:\n{message}")
-                print("=======================================\n")
+            print_debug(f"Enviei a mensagem:\n{message}")
 
         except:
             print(f"Aviso: Não foi possível enviar mensagem para o servidor!\nMensagem: '{message}\n'")
@@ -115,9 +105,6 @@ class ClientMessage(Message):
 
         response = cls.receive_message(client_socket)
 
-        if debug_mode:
-            print("\n=======================================")
-            print(f"DEBUG - Recebi a mensagem:\n{response}")
-            print("=======================================\n")
+        print_debug(f"Recebi a mensagem:\n{response}")
 
         return response

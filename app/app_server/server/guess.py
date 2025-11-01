@@ -1,14 +1,18 @@
 from typing import Tuple
 from app.models import Player, ServerGameState, ServerMessage, Error
 
+from app.debug import print_debug
 
 def deal_guess(turn_player: Player, game_state: ServerGameState, guess_response: str) -> str:
 
     guess_type, guess_str, guess_error = _validate_guess(guess_response, game_state)
     
     if guess_error:
+        print_debug(f"Palpite inválido de {turn_player.name}: {guess_type} {guess_str}\n{guess_error}")
         ServerMessage.send_message_to_player(turn_player, guess_error)
         return None
+    print_debug(f"Palpite válido de {turn_player.name}: {guess_type} {guess_str}")
+
     if guess_type == "WORD": guess_type_msg = "palavra"
     if guess_type == "LETTER": guess_type_msg = "letra"
 
@@ -86,13 +90,17 @@ def _process_guess(guess_type: str, guess: str, game_state: ServerGameState):
             for i in range(0, len(game_state.word_array)):
                 if guess == game_state.word_array[i]:
                     game_state.word_progress[i] = guess
+            print_debug("Letra estava na palavra!")
         else:
             game_state.lives -= 1
+            print_debug("Letra não estava na palavra!")
         
 
     if guess_type == "WORD":
         if guess == game_state.word:
             for i in range(0, len(game_state.word_array)):
                 game_state.word_progress[i] = guess[i]
+            print_debug("Palavra acertada!")
         else:
             game_state.lives -= 1
+            print_debug("Palavra não acertada!")
