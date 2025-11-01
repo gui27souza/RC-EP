@@ -1,0 +1,70 @@
+- Cliente Manda / Servidor Recebe
+
+    - NEWPLAYER <nome>
+        - adiciona novo player ao iniciar o programa
+        - aguarda STANDBY
+
+    - WORD <palavra>
+        - Definir palavra da rodada
+        - aguarda OK e NEWGAME
+
+    - GUESS [LETTER|WORD] <palpite>
+        - envia palpite de letra/palavra
+        - pós YOURTURN
+        - aguarda OK e STATUS
+
+    - ERROR INVALID_FORMAT
+
+    - ERROR UNEXPECTED_MESSAGE
+
+    - QUIT
+
+
+
+- Cliente Recebe / Servidor Manda
+
+    - STANDBY
+        - pede para o player aguardar o jogo começar
+        - pós NEWPLAYER
+        - aguarda MASTER (Opt)
+
+    - OK 
+        - confirmação de integridade
+
+    - MASTER 
+        - define o player que é mestre
+        - aguarda WORD
+
+    - NEWGAME <vidas> <tamanho_palavra> 
+        - inicia o jogo após todo o setup, para todos
+        - pós OK para WORD
+
+    - YOURTURN 
+        - pede para o player dar o palpite
+        - pós NEWGAME (primeiro) ou STATUS (seguintes)
+        - aguarda GUESS
+
+    - STATUS <vidas> <estado> <jogador> <palpite>
+        - status geral do jogo
+        - pós OK de GUESS
+        - encerra o jogo com GAMEOVER ou envia YOURTURN
+
+    - GAMEOVER [WIN|LOSE] <jogador> <palavra>
+        - avisa todos os jogadores que o jogo acabou
+        - pós STATUS
+
+    - ERROR INVALID_FORMAT
+
+    - ERROR INVALID_MASTER_MESSAGE
+
+    - ERROR UNEXPECTED_MESSAGE
+
+    - ERROR INVALID_PLAYER_NAME
+
+    - ERROR NOT_ENOUGH_PLAYERS
+
+    - ERROR ALREADY_GUESSED
+
+    - ERROR INVALID_LETTER
+
+    - ERROR INVALID_WORD_LENGTH
