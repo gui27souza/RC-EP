@@ -77,8 +77,8 @@ def run_game():
 
         ### GAMEOVER
         elif response.startswith("GAMEOVER"):
+            client.game_flow.end_game(client_socket, response)
 
-            pass
 
         ### MENSAGEM INESPERADA
         else:
