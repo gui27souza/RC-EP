@@ -3,7 +3,7 @@ import sys, traceback
 from .run import run_game
 
 if __name__ == "__main__":
-    
+
     try:
         run_game()
 

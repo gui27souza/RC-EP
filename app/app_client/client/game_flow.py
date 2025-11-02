@@ -4,12 +4,15 @@ from socket import socket
 from app.models import ClientGameState, ClientMessage, Error
 
 def abort_game(client_socket: socket, exit_value: int,  message:str = None):
-    
+    """
+    Encerra a execução do programa.
+    """
+
     if message: print(message)
-    
+
     try:client_socket.close()
     except: pass
-    
+
     sys.exit(exit_value)
 
 
@@ -30,11 +33,11 @@ def wait_game(client_socket:socket, standby_response: str):
 def start_game(client_socket: socket, is_master:bool, newgame_response:str):
 
     response_parts = newgame_response.split(' ')
-            
+
     try:
         lives = int(response_parts[1])
         word_length = int(response_parts[2])
-    
+
         game_state = ClientGameState(
             lives, word_length, is_master
         )
@@ -49,7 +52,7 @@ def start_game(client_socket: socket, is_master:bool, newgame_response:str):
             client_socket, 1,
             f"Mensagem de NEWGAME mal formatada: {newgame_response}"
         )
-    
+
     except Exception as e:
         abort_game(
             client_socket, 1,
