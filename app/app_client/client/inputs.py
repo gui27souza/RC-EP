@@ -24,11 +24,14 @@ def check() -> Tuple[str, str, int]:
       porta = int(porta_str)
       if porta < 0 or porta > 65535: raise Exception
 
-      ip_check = ip.split(".")
-      if len(ip_check) != 4: raise Exception
-      for ip_part in ip_check:
-        if ip_part[0] == '0' and len(ip_part) != 1 or \
-        not 0 <= int(ip_part) <= 255: raise Exception
+            if ip == "localhost":
+                ip = "127.0.0.1"
+            else:
+                ip_check = ip.split(".")
+                if len(ip_check) != 4: raise Exception
+                for ip_part in ip_check:
+                    if ip_part[0] == '0' and len(ip_part) != 1 or \
+                    not 0 <= int(ip_part) <= 255: raise Exception
 
     # Valor default
     else:
