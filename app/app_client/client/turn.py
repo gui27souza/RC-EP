@@ -12,10 +12,10 @@ def handle_yourturn(client_socket: socket, game_state: ClientGameState):
     while True:
 
         # Recebe o palpite do usuário
-        guess_input = input("Digite sua jogada (letra ou palavra), ou \q para sair: ")
+        guess_input = input("Digite sua jogada (letra ou palavra), ou \\q para sair: ")
 
         # Saída do jogo
-        if guess_input == "\q":
+        if guess_input == "\\q":
             _game_quit(client_socket)
 
         # Validação inicial do palpite

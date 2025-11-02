@@ -42,5 +42,5 @@ def check() -> Tuple[str, str, int]:
 
     # Erro - Parâmetros inválidos
     except Exception:
-        print("\nUso correto dos parâmetros: python3 hangman-client.py <nome-do-jogador> <IP>:<Porta>\nO nome do jogador não deve ter espaços, e o endereço/porta deve ter o formato X.X.X.X:X\n")
+        print("\nUso correto dos parâmetros: python3 -m app.app_client.main <nome-do-jogador> <IP>:<Porta>\nO nome do jogador não deve ter espaços, e o endereço/porta deve ter o formato X.X.X.X:X\n")
         sys.exit(1)

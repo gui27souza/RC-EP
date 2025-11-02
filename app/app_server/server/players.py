@@ -22,10 +22,18 @@ def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
         client_socket, client_address = server_socket.accept()
         client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
-        # =============== NEWPLAYER ===============
         initial_message = ServerMessage.receive_message(client_socket)
 
-        if initial_message and initial_message.startswith("NEWPLAYER "):
+
+        # =============== Conection Loss ===============
+        # Perda de conexão com jogador na hora da conexão inicial
+        if initial_message == None:
+            client_socket.close()
+            continue
+
+
+        # =============== NEWPLAYER ===============
+        if initial_message.startswith("NEWPLAYER "):
 
             # Recorta apenas o nome do jogador da mensagem
             player_name = initial_message.split(' ', 1)[1].strip()
@@ -53,7 +61,7 @@ def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
             i+=1
             print(f"Jogador conectado: {new_player.name}\n")
 
-        # =============== Unexpexted Message ===============
+        # =============== Unexpected Message ===============
         else:
             ServerMessage.send_message(client_socket, Error.UNEXPECTED_MESSAGE)
             client_socket.close()
