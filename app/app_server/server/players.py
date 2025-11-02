@@ -6,6 +6,8 @@ import socket
 from typing import List
 from app.models import Player, Error, ServerMessage
 
+from app.debug import print_debug
+
 def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
     '''
     Busca o número de jogadores especificado, retornando uma lista de objetos Player, onde cada um tem o socket, nome e endereço do cliente
@@ -23,6 +25,7 @@ def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
         client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
         initial_message = ServerMessage.receive_message(client_socket)
+        print_debug(f"Recebi a mensagem:\n{initial_message}")
 
 
         # =============== Conection Loss ===============
@@ -68,5 +71,5 @@ def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
             print(f"Erro: Jogador de {client_address} enviou mensagem inicial inesperada ('{initial_message}'). Conexão encerrada.")
             continue
 
-    print(f"Todos os {numero_jogadores} jogadores conectados.\nLista de jogadores: {[player.name for player in connected_players]} Preparando o jogo.")
+    print(f"Todos os {numero_jogadores} jogadores conectados.\nLista de jogadores: {[player.name for player in connected_players]}\nPreparando o jogo.")
     return connected_players

@@ -9,7 +9,7 @@ def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
 
     # Escolhe um player aleatório para ser o Mestre
     master_player = random.choice(connected_players)
-    print(f"Jogador mestre: {master_player.name}")
+    print(f"\nMestre: {master_player.name}")
 
     # =============== MASTER ===============
     # Avisa o player que ele é o Mestre

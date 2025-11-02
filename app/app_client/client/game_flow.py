@@ -19,7 +19,7 @@ def abort_game(client_socket: socket, exit_value: int,  message:str = None):
 def wait_game(client_socket:socket, standby_response: str):
 
     if standby_response.startswith("STANDBY"):
-        print("Aguardando o jogo começar...\n")
+        print("Aguardando o jogo começar...")
     else:
         ClientMessage.send_message_to_server(
             client_socket,
@@ -27,7 +27,7 @@ def wait_game(client_socket:socket, standby_response: str):
         )
         abort_game(
             client_socket, 1,
-            f"Mensagem inesperada recebida:\n{standby_response}\nEncerrando execução..."
+            f"\nMensagem inesperada recebida:\n{standby_response}\nEncerrando execução..."
         )
 
 def start_game(client_socket: socket, is_master:bool, newgame_response:str):
@@ -42,7 +42,7 @@ def start_game(client_socket: socket, is_master:bool, newgame_response:str):
             lives, word_length, is_master
         )
 
-        print(f"Jogo iniciado!\nVidas para advinhar: {game_state.lives}\nTamanho da palavra: {game_state.word_length} letras.")
+        print(f"\nJogo iniciado!\nVidas para advinhar: {game_state.lives}\nTamanho da palavra: {game_state.word_length} letras.\n")
 
         return game_state
 
@@ -50,13 +50,13 @@ def start_game(client_socket: socket, is_master:bool, newgame_response:str):
         ClientMessage.send_message_to_server(client_socket, Error.INVALID_FORMAT)
         abort_game(
             client_socket, 1,
-            f"Mensagem de NEWGAME mal formatada: {newgame_response}"
+            f"\nMensagem de NEWGAME mal formatada: {newgame_response}"
         )
 
     except Exception as e:
         abort_game(
             client_socket, 1,
-            f"Erro inesperado ao iniciar novo jogo: {e}"
+            f"\nErro inesperado ao iniciar novo jogo: {e}"
         )
 
 def end_game(client_socket: socket, gameover_message: str):
@@ -75,15 +75,15 @@ def end_game(client_socket: socket, gameover_message: str):
         ClientMessage.send_message_to_server(
             client_socket,Error.INVALID_FORMAT
         )
-        abort_game(client_socket, 1, f"Mensagem de GAMEOVER mal formatada:\n{gameover_message}\n")
+        abort_game(client_socket, 1, f"\nMensagem de GAMEOVER mal formatada:\n{gameover_message}\n")
 
     except Exception as e:
         abort_game(
             client_socket, 1,
-            f"Erro inesperado ao lida com mensagem de GAMEOVER: {e}\n"
+            f"\nErro inesperado ao lida com mensagem de GAMEOVER: {e}\n"
         )
 
-    print("O jogo terminou.")
+    print("\nO jogo terminou.")
     if result == "WIN":
         print(f"A palavra '{word}' foi adivinhada por {player_name}")
     elif result == "LOSE":
@@ -91,5 +91,5 @@ def end_game(client_socket: socket, gameover_message: str):
 
     abort_game(
         client_socket, 0,
-        "Encerrando conexão com o servidor..."
+        "\nEncerrando conexão com o servidor..."
     )

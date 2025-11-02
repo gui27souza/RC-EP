@@ -8,7 +8,7 @@ def master_setup(client_socket: socket) -> True:
     Permite o jogador mestre escolhido definir a palavra, lidando com erros.
     """
 
-    print("Voce é o mestre do jogo!")
+    print("\nVocê é o mestre do jogo!")
     while True:
 
         # Pega palavra do jogador mestre

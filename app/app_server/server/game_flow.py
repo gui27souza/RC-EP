@@ -41,7 +41,7 @@ def end_game(game_over_status:str, current_player:Player, server_socket: socket,
     elif game_over_status == "WIN":
         print(f"Jogador {current_player.name} advinhou a palavra!")
 
-    print("Finalizando jogo...")
+    print("\nFinalizando jogo...")
     ServerMessage.send_message_to_all_players(
         game_state.all_players, 
         ServerMessage.GAMEOVER(

@@ -17,7 +17,7 @@ def update(client_socket: socket, game_state: ClientGameState, status_message: s
         status = status_parts[0]
         lives = int(status_parts[1])
         word_progress_str = status_parts[2]
-        last_player = status_parts[3]
+        last_player_name = status_parts[3]
         last_guess = status_parts[4]
 
         if lives < 0 or lives > 7:
@@ -49,7 +49,7 @@ def update(client_socket: socket, game_state: ClientGameState, status_message: s
         game_state.guesses.append(last_guess)
 
     # Faz os prints necessários para o jogador
-    print(f"jogador {last_player} fez uma jogada: {last_guess}. Restam {lives} vidas.")
+    print(f"\nJogador {last_player_name} fez uma jogada: {last_guess}. Restam {lives} vidas.")
     print(
         _forca_by_lives(int(lives), word_progress_str)
     )

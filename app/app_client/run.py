@@ -7,7 +7,7 @@ def run_game():
     nome_jogador, ip, porta = client.inputs.check()
 
     # Cria e conecta o socket com o servidor
-    print("Conectando ao servidor...")
+    print("\nConectando ao servidor...")
     client_socket = client.server_conn.setup(ip, porta)
 
     # =============== NEWPLAYER ===============

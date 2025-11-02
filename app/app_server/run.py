@@ -8,7 +8,7 @@ def run_game():
     # Verificação de parâmetros
     total_players, porta = server.inputs.check()
 
-    print(f"Servidor inicializado na porta {porta}")
+    print(f"\nServidor inicializado na {porta}")
     server_socket: socket.socket = None
 
     # =============== Loop principal do Servidor ===============
@@ -21,7 +21,7 @@ def run_game():
             server_socket if server_socket else None
         )
 
-        print("Iniciando novo jogo...")
+        print("\nIniciando novo jogo...\n")
 
         # Aguarda e armazena todos os jogadores
         connected_players = server.players.init(server_socket, total_players)
@@ -31,11 +31,11 @@ def run_game():
 
         # Reinicia o jogo caso haja algum erro no setup do Mestre
         if not master or not word: 
-            print("Reiniciando jogo devido a problemas no setup do jogador Mestre...")
+            print("\nReiniciando jogo devido a problemas no setup do jogador Mestre...")
             continue
 
         # Inicia jogo
-        print("Jogo iniciado com sucesso!")
+        print("\nJogo iniciado com sucesso!")
         game_state = ServerGameState(
             word=word,
             all_players=connected_players,
@@ -68,7 +68,7 @@ def run_game():
             # =============== YOURTURN ===============
             # Notifica o jogador atual que é sua vez
             current_player = game_state.common_players[current_player_index]
-            print(f"Vez do jogador {current_player.name}.")
+            print(f"\nVez do jogador {current_player.name}.")
             ServerMessage.send_message_to_player(current_player, ServerMessage.YOURTURN)
 
 
