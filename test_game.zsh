@@ -2,8 +2,8 @@
 
 # --- CONFIGURAÇÕES ---
 PYTHON_CMD="python3"
-SERVER_APP="app.app_server.main" # Assumindo que seu main.py está em app_server
-CLIENT_APP="app.app_client.main"
+SERVER_APP="app.app_server.hangman-server"
+CLIENT_APP="app.app_client.hangman-client"
 NUM_JOGADORES=3
 PORTA=6891
 IP="127.0.0.1"
