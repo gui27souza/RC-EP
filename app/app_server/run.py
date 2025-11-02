@@ -14,7 +14,8 @@ def run_game():
     # Loop principal do Servidor
     while True:
 
-        server_socket = server.socket.setup(
+        # Faz o setup do socket
+        server_socket = server.socket_util.setup(
             total_players, 
             porta,
             server_socket if server_socket else None
