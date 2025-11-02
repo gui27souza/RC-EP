@@ -87,9 +87,13 @@ def run_game():
                 break
 
             else:
-                ServerMessage.send_message_to_player(
-                    current_player, Error.UNEXPECTED_MESSAGE
-                )
+
+                if response.startswith("ERROR"):
+                    print(f"Mensagem de erro recebida de {current_player.name}: {response}\nEncerrando partida...")
+                else:
+                    print(f"Mensagem de não esperada recebida de {current_player.name}: {response}\nEncerrando partida...")
+
+                server.game_flow.abort_game(game_state.all_players, Error.UNEXPECTED_MESSAGE)
                 break
 
             # Verifica se o jogo deve encerrar
