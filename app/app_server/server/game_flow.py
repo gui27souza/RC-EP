@@ -1,3 +1,6 @@
+import time
+from socket import socket
+
 from typing import List
 from app.models import Player, ServerMessage, ServerGameState, Error
 
@@ -9,19 +12,51 @@ def abort_game(players: List[Player], error_code:str):
         except: 
             print(f"Não foi possível encerrar conexão de forma segura com o jogador {player.name} ({player.socket}).")
 
-def is_game_over(game_state: ServerGameState) -> str:
+def is_game_over(current_player:Player, server_socket: socket,game_state: ServerGameState) -> bool:
     """Verifica se o jogo deve seguir após cada rodada"""
-    
+
     # Jogo acabou - Player perdeu
     if game_state.lives == 0:
-        return "LOSE"
+        end_game(
+            "LOSE", current_player,
+            server_socket, game_state
+        )
+        return True
 
     # Jogo acabou - Player ganhou
     if not '_' in game_state.word_progress:
-        return "WIN"
-    
+        end_game(
+            "WIN", current_player,
+            server_socket, game_state
+        )
+        return True
+
     # Jogo segue
-    return None
+    return False
+
+def end_game(game_over_status:str, current_player:Player, server_socket: socket, game_state:ServerGameState):
+
+    if game_over_status == "LOSE":
+        print("Jogadores perderam!")
+    elif game_over_status == "WIN":
+        print(f"Jogador {current_player.name} advinhou a palavra!")
+
+    print("Finalizando jogo...")
+    ServerMessage.send_message_to_all_players(
+        game_state.all_players, 
+        ServerMessage.GAMEOVER(
+            game_over_status, current_player.name, game_state.word
+        )
+    )
+
+    time.sleep(1)
+
+    for player in game_state.all_players:
+        try: player.socket.close()
+        except: pass
+
+    server_socket.close()
+
 def deal_not_enough_players(master_player: Player):
 
     print("Não há mais jogadores comuns.\nFim de jogo.")

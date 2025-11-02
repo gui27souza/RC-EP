@@ -96,24 +96,10 @@ def run_game():
                 server.game_flow.abort_game(game_state.all_players, Error.UNEXPECTED_MESSAGE)
                 break
 
-            # Verifica se o jogo deve encerrar
-            game_over_status = server.game_flow.is_game_over(game_state)
-            if game_over_status:
-                
-                if game_over_status == "LOSE":
-                    print("Jogadores perderam!")
-                elif game_over_status == "WIN":
-                    print(f"Jogador {current_player.name} advinhou a palavra!")
-                
-                print("Finalizando jogo...")
-                ServerMessage.send_message_to_all_players(
-                    connected_players, 
-                    ServerMessage.GAMEOVER(
-                        game_over_status, current_player.name, game_state.word
-                    )
-                )
 
                 time.sleep(1)
+            is_game_over = server.game_flow.is_game_over(current_player, server_socket, game_state)
+            if is_game_over: break
 
                 for player in game_state.all_players:
                     try: player.socket.close()
