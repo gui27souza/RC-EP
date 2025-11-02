@@ -3,7 +3,7 @@
 ## Sobre o projeto
 
 - O projeto atual se trata de um exercício programa da disciplina de Redes de Computadores do curso de Sistemas de Informação da Universidade de São Paulo - EACH, cujo o objetivo era desenvolver uma aplicação de jogo da forca, criando o código para cliente e servidor.
-- [Documentação do projeto](https://docs.google.com/document/d/1H_8h8TvvVYHVuBlrZxGPcn6s5pDMreh_ue1vH6DNIzY/edit?usp=sharing)
+- [Documentação do projeto](https://docs.google.com/document/d/14-84iii0Wu2yj3yZjHpCmxHpSB1BOHtRjitBHpTG9-w/edit?usp=sharing)
 
 ## Como executar?
 
@@ -26,4 +26,4 @@ python3 -m app.app_client.hangman-client <nome-do-jogador> [<IP>:<Porta>]
 
 ## Sobre
 
-- Para um maior detalhamento do projeto, consulta o enunciado do exercício (ACH2026_2025_EP.pdf) e a [documentação do projeto](https://docs.google.com/document/d/1H_8h8TvvVYHVuBlrZxGPcn6s5pDMreh_ue1vH6DNIzY/edit?usp=sharing)
+- Para um maior detalhamento do projeto, consulta o enunciado do exercício (ACH2026_2025_EP.pdf) e a [documentação do projeto](https://docs.google.com/document/d/14-84iii0Wu2yj3yZjHpCmxHpSB1BOHtRjitBHpTG9-w/edit?usp=sharing)
