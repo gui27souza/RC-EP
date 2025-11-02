@@ -58,17 +58,7 @@ def run_game():
         while True:
 
             if total_common_players == 0:
-
-                print("Não há mais jogadores comuns.\nFim de jogo.")
-
-                try:
-                    ServerMessage.send_message_to_player(
-                        game_state.master_player,
-                        Error.NOT_ENOUGH_PLAYERS
-                    )
-                except: pass
-
-                time.sleep(1)
+                server.game_flow.deal_not_enough_players(game_state.master_player)
                 break
 
             current_player = game_state.common_players[current_player_index]

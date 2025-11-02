@@ -22,3 +22,17 @@ def is_game_over(game_state: ServerGameState) -> str:
     
     # Jogo segue
     return None
+def deal_not_enough_players(master_player: Player):
+
+    print("Não há mais jogadores comuns.\nFim de jogo.")
+
+    # =============== NOT ENOUGH PLAYERS ===============
+    try:
+        ServerMessage.send_message_to_player(
+            master_player,
+            Error.NOT_ENOUGH_PLAYERS
+        )
+    except: pass
+
+    time.sleep(1)
+
