@@ -6,7 +6,7 @@ SERVER_APP="app.app_server.hangman-server"
 CLIENT_APP="app.app_client.hangman-client"
 NUM_JOGADORES=3
 PORTA=6891
-IP="127.0.0.1"
+IP="localhost"
 TERMINAL="gnome-terminal"
 
 echo "Iniciando Servidor e 3 Clientes..."
