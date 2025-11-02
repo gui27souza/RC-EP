@@ -1,5 +1,5 @@
 from typing import List
-from app.models import Player, ServerMessage, ServerGameState
+from app.models import Player, ServerMessage, ServerGameState, Error
 
 def abort_game(players: List[Player], error_code:str):
     """Envia a mensagem de erro crítico para todos e fecha os sockets."""
@@ -36,3 +36,17 @@ def deal_not_enough_players(master_player: Player):
 
     time.sleep(1)
 
+def deal_player_left(response: str, current_player: Player, total_common_players: int, current_player_index: int, game_state: ServerGameState):
+
+    if response == Error.QUIT:
+        ServerMessage.send_message_to_player(
+            current_player, ServerMessage.OK
+        )
+
+    game_state.common_players.remove(current_player)
+    total_common_players = len(game_state.common_players)
+
+    if total_common_players > 0:
+        current_player_index -= 1
+
+    return total_common_players, current_player_index, game_state

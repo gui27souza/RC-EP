@@ -69,21 +69,14 @@ def run_game():
 
             response = ServerMessage.receive_message_from_player(current_player)
 
+
+
             if response == None or response == Error.QUIT:
-                
-                if response == Error.QUIT:
-                    ServerMessage.send_message_to_player(
-                        current_player, ServerMessage.OK
-                    )
-
-                game_state.common_players.remove(current_player)
-                total_common_players = len(game_state.common_players)
-
-                if total_common_players > 0:
-                    current_player_index %= total_common_players
-                else:
-                    current_player_index = 0
-
+                total_common_players, current_player_index, game_state = server.game_flow.deal_player_left(
+                    response, current_player,
+                    total_common_players, current_player_index,
+                    game_state
+                )
                 continue
 
             elif response.startswith("GUESS "):
