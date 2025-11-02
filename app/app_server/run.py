@@ -125,4 +125,4 @@ def run_game():
 
             # Atualiza o player atual
             current_player_index = (current_player_index + 1) % total_common_players
-            time.sleep(1)
+            time.sleep(0.3)

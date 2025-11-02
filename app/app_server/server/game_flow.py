@@ -1,4 +1,3 @@
-import time
 from socket import socket
 
 from typing import List
@@ -49,8 +48,6 @@ def end_game(game_over_status:str, current_player:Player, server_socket: socket,
         )
     )
 
-    time.sleep(1)
-
     for player in game_state.all_players:
         try: player.socket.close()
         except: pass
@@ -68,8 +65,6 @@ def deal_not_enough_players(master_player: Player):
             Error.NOT_ENOUGH_PLAYERS
         )
     except: pass
-
-    time.sleep(1)
 
 def deal_player_left(response: str, current_player: Player, total_common_players: int, current_player_index: int, game_state: ServerGameState):
 

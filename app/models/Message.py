@@ -1,4 +1,6 @@
+import time
 from socket import socket
+
 from .Player import Player
 from typing import List
 
@@ -8,6 +10,7 @@ class Message:
 
     @staticmethod
     def send_message(socket_end: socket, message: str):
+        time.sleep(0.3)
         terminator = "\r\n"
         full_message = (message + terminator).encode('ascii')
         socket_end.sendall(full_message)
