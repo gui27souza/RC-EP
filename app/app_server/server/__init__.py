@@ -2,7 +2,7 @@
 Biblioteca centralizadora de módulos relacionados ao lado do servidor
 '''
 
-from . import socket
+from . import socket_util
 from . import inputs
 from . import master
 from . import players
