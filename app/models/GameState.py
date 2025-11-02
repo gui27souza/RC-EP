@@ -20,7 +20,7 @@ class ServerGameState:
     word_array: List[str] = field(init=False)
     '''Palavra a ser advinhada em forma de vetor'''
     word_progress: List[str] = field(init=False)
-    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "-"'''
+    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "_"'''
     common_players: List[Player] = field(init=False)
     '''Lista de jogadores comuns (Não Mestre)'''
 
@@ -57,4 +57,4 @@ class ClientGameState:
 
     # Construtor
     def __post_init__(self):
-        self.word_progress = ['-']*self.word_length
+        self.word_progress = ['_']*self.word_length

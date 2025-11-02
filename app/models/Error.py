@@ -27,4 +27,3 @@ class Error:
 
     QUIT = "QUIT"
     '''Esta mensagem não é exatamente um erro, mas pode ser enviada pelo cliente ao servidor para indicar que o jogador deseja se desconectar. O servidor deve responder com OK e encerrar a conexão.'''
-    

@@ -22,18 +22,18 @@ class Message:
         while True:
 
             # Lê uma porção dos dados.
-            data = socket.recv(1024)         
+            data = socket.recv(1024)
             # Conexão encerrada pelo cliente ou erro de rede
-            if not data: return None 
+            if not data: return None
 
             # Adiciona a porção ao buffer
             buffer += data
             # Verifica se o terminador está no buffer
             if terminator in buffer:
                 # Limpa para retornar apenas a mensagem
-                message_end_index = buffer.find(terminator) 
+                message_end_index = buffer.find(terminator)
                 message = buffer[:message_end_index].decode('ascii')
-                
+
                 return message
 
 class ServerMessage(Message):
@@ -52,13 +52,13 @@ class ServerMessage(Message):
     @classmethod
     def send_message_to_player(cls, player: Player, message: str):
         """Função auxiliar para enviar uma mensagem a um jogador."""
-        
+
         try: 
-        
+
             cls.send_message(player.socket, message)
-        
+
             print_debug(f"Enviei a mensagem para o jogador {player.name}:\n{message}")
-        
+
         except:
             print(f"Aviso: Não foi possível enviar mensagem para o jogador {player.name}")
 
@@ -90,8 +90,8 @@ class ClientMessage(Message):
     @classmethod
     def send_message_to_server(cls, client_socket: socket, message: str):
         """Função auxiliar para enviar uma mensagem ao servidor."""
-        try: 
-            
+        try:
+
             cls.send_message(client_socket, message)
             
             print_debug(f"Enviei a mensagem:\n{message}")
