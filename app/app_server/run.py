@@ -52,6 +52,8 @@ def run_game():
             )
         )
 
+        time.sleep(1)
+
         # =============== Loop principal do jogo ===============
         current_player_index = 0
         total_common_players = len(game_state.common_players)
