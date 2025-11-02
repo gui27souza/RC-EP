@@ -43,13 +43,9 @@ def run_game():
                 )
 
         ### MASTER
+
         elif response.startswith("MASTER"):
-            is_master_setup = client.master.master_setup(client_socket)
-
-            if not is_master_setup: 
-                pass
-
-            is_master = True
+            is_master = client.master.master_setup(client_socket)
 
 
         ### NEWGAME
