@@ -33,12 +33,17 @@ def handle_yourturn(client_socket: socket, game_state: ClientGameState):
 
         # =============== GUESS ===============
         # Envio do palpite ao servidor
-        ClientMessage.send_message_to_server(
-            client_socket,
-            ClientMessage.GUESS(
-                guess_type, guess_input.upper()
+        try:
+            ClientMessage.send_message_to_server(
+                client_socket,
+                ClientMessage.GUESS(
+                    guess_type, guess_input.upper()
+                ),
+                raise_exception=True
             )
-        )
+        except:
+            print("Palpite inválido!")
+            continue
 
         # Aguarda a resposta do servidor sobre o palpite
         response = ClientMessage.receive_message_from_server(client_socket)

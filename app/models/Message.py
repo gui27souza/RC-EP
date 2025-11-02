@@ -88,7 +88,7 @@ class ClientMessage(Message):
     def GUESS(type, guess): return f"GUESS {type} {guess}"
 
     @classmethod
-    def send_message_to_server(cls, client_socket: socket, message: str):
+    def send_message_to_server(cls, client_socket: socket, message: str, raise_exception: bool = False):
         """Função auxiliar para enviar uma mensagem ao servidor."""
         try:
 
@@ -98,6 +98,7 @@ class ClientMessage(Message):
 
         except:
             print(f"Aviso: Não foi possível enviar mensagem para o servidor!\nMensagem: '{message}\n'")
+            if raise_exception: raise
 
     @classmethod
     def receive_message_from_server(cls, client_socket: socket):
