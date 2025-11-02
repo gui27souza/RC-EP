@@ -1,5 +1,3 @@
-import socket
-
 from . import client
 from app.models import ClientMessage, ClientGameState, Error
 
@@ -8,8 +6,9 @@ def run_game():
     # Verificação de parâmetros
     nome_jogador, ip, porta = client.inputs.check()
 
+    # Cria e conecta o socket com o servidor
     print("Conectando ao servidor...")
-    client_socket = client.socket.setup(ip, porta)
+    client_socket = client.server_conn.setup(ip, porta)
 
     # Envia mensagem de anuncio de novo player, com o nome do jogador
     ClientMessage.send_message_to_server(client_socket, ClientMessage.NEWPLAYER(nome_jogador))

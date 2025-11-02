@@ -1,8 +1,15 @@
 import sys
-from socket import socket
+import socket
 
-def connect_to_server(client_socket: socket, ip: str, porta: str):
+def setup(ip:str, porta:int):
 
+    # Criação do objeto socket
+    client_socket = socket.socket(
+        socket.AF_INET,     # especifica que o endereço será IPv4
+        socket.SOCK_STREAM  # especifica que o transporte será TCP
+    )
+    
+    # Conecta com o servidor pelo socket
     server_address = (ip, porta)
     try:
         client_socket.connect(server_address)
@@ -13,3 +20,7 @@ def connect_to_server(client_socket: socket, ip: str, porta: str):
     except Exception as e:
         print(f"Erro inesperado durante a conexão: {e}\n")
         sys.exit(1)
+
+    client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+
+    return client_socket
