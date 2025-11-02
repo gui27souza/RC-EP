@@ -27,9 +27,8 @@ def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
             response = ServerMessage.receive_message_from_player(master_player)
 
             # Perda de conexão com o Mestre - Sem resposta
-            if response is None: 
-                game_flow.abort_game(connected_players, Error.INVALID_MASTER_MESSAGE)
-                return None, None
+            if response is None:
+                raise Exception
 
             # Erro de mensagem
             if not response.startswith("WORD"): 
@@ -47,7 +46,6 @@ def master_setup(connected_players: List[Player]) -> Tuple[Player, str]:
         # Erro recuperável
         except ValueError:
             ServerMessage.send_message_to_player(master_player, Error.INVALID_FORMAT)
-            ServerMessage.send_message_to_all_players(connected_players, Error.INVALID_MASTER_MESSAGE)
             continue
         
         # Erro irrecuperável
