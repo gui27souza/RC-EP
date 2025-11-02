@@ -16,6 +16,7 @@ def run_game():
     response = ClientMessage.receive_message_from_server(client_socket)
     client.game_flow.wait_game(client_socket, response)
 
+    game_state: ClientGameState = None
     is_master = False
     while True:
         
