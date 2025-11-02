@@ -12,6 +12,21 @@ def abort_game(client_socket: socket, exit_value: int,  message:str = None):
     
     sys.exit(exit_value)
 
+
+def wait_game(client_socket:socket, standby_response: str):
+
+    if standby_response.startswith("STANDBY"):
+        print("Aguardando o jogo começar...\n")
+    else:
+        ClientMessage.send_message_to_server(
+            client_socket,
+            Error.UNEXPECTED_MESSAGE
+        )
+        abort_game(
+            client_socket, 1,
+            f"Mensagem inesperada recebida:\n{standby_response}\nEncerrando execução..."
+        )
+
 def start_game(client_socket: socket, is_master:bool, newgame_response:str):
 
     response_parts = newgame_response.split(' ')
