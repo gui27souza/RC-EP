@@ -17,7 +17,8 @@ def check() -> Tuple[int, int]:
 
         # Número de jogadores
         numero_jogadores = int(sys.argv[1])
-        
+        if numero_jogadores < 2: raise Exception
+
         # Porta escolhida ou padrão
         if len(sys.argv) == 3:
             porta = int(sys.argv[2])
