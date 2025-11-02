@@ -4,7 +4,7 @@ from typing import List
 from .Player import Player
 
 @dataclass
-class GameState:
+class ServerGameState:
 
     word: str
     '''Palavra a ser advinhada pelos jogadores'''
@@ -20,7 +20,7 @@ class GameState:
     word_array: List[str] = field(init=False)
     '''Palavra a ser advinhada em forma de vetor'''
     word_progress: List[str] = field(init=False)
-    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "-"'''
+    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "_"'''
     common_players: List[Player] = field(init=False)
     '''Lista de jogadores comuns (Não Mestre)'''
 
@@ -39,3 +39,22 @@ class GameState:
         self.word_array = word_array
         self.word_progress = empty_word_array
         self.common_players = common_players
+
+@dataclass 
+class ClientGameState:
+    
+    lives: int
+    '''Vidas do jogo. Se chegar em 0, o jogo acaba'''
+    word_length: int
+    '''Tamanho da palavra a ser advinhada'''
+    is_master: bool
+    '''Sinalizador de se o jogador é Mestre'''
+
+    guesses: List[str] = field(init=False, default_factory=list)
+    '''Lista de palpites errados realizados pelos jogadores'''
+    word_progress: List[str] = field(init=False)
+    '''Progresso dos palpites até a palavra a ser advinhada. Inicia apenas com "_"'''
+
+    # Construtor
+    def __post_init__(self):
+        self.word_progress = ['_']*self.word_length

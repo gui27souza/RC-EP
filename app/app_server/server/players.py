@@ -2,11 +2,13 @@
 Módulo que lida com operações do fluxo de jogo relacionada a configuração de Players
 '''
 
-from socket import socket
+import socket
 from typing import List
-from app.models import Player, Error, Message, ServerMessage
+from app.models import Player, Error, ServerMessage
 
-def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
+from app.debug import print_debug
+
+def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
     '''
     Busca o número de jogadores especificado, retornando uma lista de objetos Player, onde cada um tem o socket, nome e endereço do cliente
     '''
@@ -20,16 +22,26 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
 
         # Aceita a conexão TCP
         client_socket, client_address = server_socket.accept()
+        client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
-        # Recebe NEWPLAYER <nome>
-        initial_message = Message.receive_message(client_socket)
+        initial_message = ServerMessage.receive_message(client_socket)
+        print_debug(f"Recebi a mensagem:\n{initial_message}")
 
-        if initial_message and initial_message.startswith("NEWPLAYER "):
-            
+
+        # =============== Conection Loss ===============
+        # Perda de conexão com jogador na hora da conexão inicial
+        if initial_message == None:
+            client_socket.close()
+            continue
+
+
+        # =============== NEWPLAYER ===============
+        if initial_message.startswith("NEWPLAYER "):
+
             # Recorta apenas o nome do jogador da mensagem
             player_name = initial_message.split(' ', 1)[1].strip()
 
-
+            # =============== INVALID PLAYER NAME ===============
             if not player_name or ' ' in player_name or not player_name.isalnum():
                 ServerMessage.send_message(client_socket, Error.INVALID_PLAYER_NAME)
                 client_socket.close()
@@ -44,19 +56,20 @@ def init(server_socket: socket, numero_jogadores: int) -> List[Player]:
             )
             connected_players.append(new_player)
 
+            # =============== STANDBY ===============
             # Avisa o Player que está tudo ok e pede para aguardar o início do jogo
             ServerMessage.send_message_to_player(new_player, ServerMessage.STANDBY)
-            
+
             # Player se conectou com sucesso
             i+=1
             print(f"Jogador conectado: {new_player.name}\n")
 
-        # Lida com mensagem inicial completamente inválida
+        # =============== Unexpected Message ===============
         else:
             ServerMessage.send_message(client_socket, Error.UNEXPECTED_MESSAGE)
             client_socket.close()
             print(f"Erro: Jogador de {client_address} enviou mensagem inicial inesperada ('{initial_message}'). Conexão encerrada.")
             continue
 
-    print(f"Todos os {numero_jogadores} jogadores conectados.\nLista de jogadores: {[player.name for player in connected_players]} Preparando o jogo.")
+    print(f"Todos os {numero_jogadores} jogadores conectados.\nLista de jogadores: {[player.name for player in connected_players]}\nPreparando o jogo.")
     return connected_players

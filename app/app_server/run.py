@@ -1,31 +1,27 @@
-import socket
-
-from app.models import GameState, ServerMessage
+import socket, time
 
 from . import server
+from app.models import ServerGameState, ServerMessage, Error
 
 def run_game():
 
     # Verificação de parâmetros
     total_players, porta = server.inputs.check()
 
-    # Criação do objeto socket
-    server_socket = socket.socket(
-        socket.AF_INET,     # especifica que o endereço será IPv4
-        socket.SOCK_STREAM  # especifica que o transporte será TCP
-    )
+    print(f"\nServidor inicializado na {porta}")
+    server_socket: socket.socket = None
 
-    # Inicia o servidor no endereço especificado
-    server_address = ('0.0.0.0', porta) # O endereço 0.0.0.0 permite que o servidor escute em todas as interfaces
-    server_socket.bind(server_address)
-    print(f"Servidor inicializadodo na porta {porta}")
-
-    # Abre X conexões, onde X é o número de jogadores
-    server_socket.listen(total_players)
-
-    # Loop principal do Servidor
+    # =============== Loop principal do Servidor ===============
     while True:
-        print("Iniciando novo jogo...")
+
+        # Faz o setup do socket
+        server_socket = server.socket_util.setup(
+            total_players, 
+            porta,
+            server_socket if server_socket else None
+        )
+
+        print("\nIniciando novo jogo...\n")
 
         # Aguarda e armazena todos os jogadores
         connected_players = server.players.init(server_socket, total_players)
@@ -35,17 +31,18 @@ def run_game():
 
         # Reinicia o jogo caso haja algum erro no setup do Mestre
         if not master or not word: 
-            print("Reiniciando jogo devido a problemas no setup do jogador Mestre...")
+            print("\nReiniciando jogo devido a problemas no setup do jogador Mestre...")
             continue
 
-        print("Jogo iniciado com sucesso!")
-
         # Inicia jogo
-        game_state = GameState(
+        print("\nJogo iniciado com sucesso!")
+        game_state = ServerGameState(
             word=word,
             all_players=connected_players,
             master_player=master
         )
+
+        # =============== NEWGAME ===============
         # Anuncia o início do jogo
         ServerMessage.send_message_to_all_players(
             connected_players, 
@@ -55,39 +52,66 @@ def run_game():
             )
         )
 
-        # Loop principal do jogo
+        time.sleep(1)
+
+        # =============== Loop principal do jogo ===============
         current_player_index = 0
         total_common_players = len(game_state.common_players)
         while True:
-            current_player = game_state.common_players[current_player_index]
-            print(f"Vez do jogador {current_player.name}.")
 
-            # Recebe e processa palpite
-            ServerMessage.send_message_to_player(current_player, ServerMessage.YOURTURN)
-            guess_str = server.guess.deal_guess(current_player, game_state)
-
-            # Verifica se o jogo deve encerrar
-            game_over_status = server.game_flow.is_game_over()
-            if game_over_status:
-                
-                if game_over_status == "LOSE":
-                    print("Jogadores perderam!")
-                elif game_over_status == "WIN":
-                    print(f"Jogador {current_player.name} advinhou a palavra!")
-                
-                print("Finalizando jogo...")
-                ServerMessage.send_message_to_all_players(
-                    connected_players, 
-                    ServerMessage.GAMEOVER(
-                        game_over_status, current_player, game_state.word
-                    )
-                )
-                
+            # =============== NOT ENOUGH PLAYERS ===============
+            # Encerra a partida caso não tenha jogadores comuns o suficiente
+            if total_common_players == 0:
+                server.game_flow.deal_not_enough_players(game_state.master_player)
                 break
 
-            print(f"Continuando jogo. Estado atual: {''.join(game_state.word_progress)}, vidas restantes: {game_state.lives}")
-            
+            # =============== YOURTURN ===============
+            # Notifica o jogador atual que é sua vez
+            current_player = game_state.common_players[current_player_index]
+            print(f"\nVez do jogador {current_player.name}.")
+            ServerMessage.send_message_to_player(current_player, ServerMessage.YOURTURN)
+
+
+            # Aguarda resposta do jogador
+            response = ServerMessage.receive_message_from_player(current_player)
+
+
+            # =============== Conection Loss / QUIT ===============
+            if response == None or response == Error.QUIT:
+                total_common_players, current_player_index, game_state = server.game_flow.deal_player_left(
+                    response, current_player,
+                    total_common_players, current_player_index,
+                    game_state
+                )
+                continue
+
+
+            # =============== GUESS ===============
+            elif response.startswith("GUESS "):
+                guess_str = server.guess.deal_guess(current_player, game_state, response)
+
+
+            # =============== ERROR / Unexpected Message ===============
+            else:
+
+                if response.startswith("ERROR"):
+                    print(f"Mensagem de erro recebida de {current_player.name}: {response}\nEncerrando partida...")
+                else:
+                    print(f"Mensagem de não esperada recebida de {current_player.name}: {response}\nEncerrando partida...")
+
+                server.game_flow.abort_game(game_state.all_players, Error.UNEXPECTED_MESSAGE)
+                break
+
+
+            # =============== GAMEOVER ===============
+            # Verifica se o jogo deve encerrar após lidar com turno do jogador
+            is_game_over = server.game_flow.is_game_over(current_player, server_socket, game_state)
+            if is_game_over: break
+
+
+            # =============== STATUS ===============
             # Manda o status do jogo para todos os jogadores
+            print(f"Continuando jogo. Estado atual: {''.join(game_state.word_progress)}, vidas restantes: {game_state.lives}")
             ServerMessage.send_message_to_all_players(
                 game_state.all_players, 
                 ServerMessage.STATUS(
@@ -98,7 +122,7 @@ def run_game():
                 )
             )
 
+
             # Atualiza o player atual
-            current_player_index += 1
-            if current_player_index == total_common_players: 
-                current_player_index = 0
+            current_player_index = (current_player_index + 1) % total_common_players
+            time.sleep(0.3)

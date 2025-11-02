@@ -13,6 +13,12 @@
         - pós YOURTURN
         - aguarda OK e STATUS
 
+    - ERROR INVALID_FORMAT
+
+    - ERROR UNEXPECTED_MESSAGE
+
+    - QUIT
+
 
 
 - Cliente Recebe / Servidor Manda
@@ -46,3 +52,19 @@
     - GAMEOVER [WIN|LOSE] <jogador> <palavra>
         - avisa todos os jogadores que o jogo acabou
         - pós STATUS
+
+    - ERROR INVALID_FORMAT
+
+    - ERROR INVALID_MASTER_MESSAGE
+
+    - ERROR UNEXPECTED_MESSAGE
+
+    - ERROR INVALID_PLAYER_NAME
+
+    - ERROR NOT_ENOUGH_PLAYERS
+
+    - ERROR ALREADY_GUESSED
+
+    - ERROR INVALID_LETTER
+
+    - ERROR INVALID_WORD_LENGTH

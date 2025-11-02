@@ -11,7 +11,7 @@ class Error:
     '''mensagem de erro enviada sempre que a mensagem recebida não for uma mensagem de erro, mas não for um dos tipos de mensagem esperada pelo protocolo naquele ponto de execução.'''
 
     INVALID_PLAYER_NAME = "ERROR INVALID_PLAYER_NAME"
-    '''mensagem de erro enviada pelo servidor ao cliente se o  nome fornecido pela mensagem NEWPLAYER for inválido. O nome é considerado inválido se estiver vazio, se contiver espaços, ou se contiver caracteres não alfanuméricos.'''
+    '''mensagem de erro enviada pelo servidor ao cliente se o nome fornecido pela mensagem NEWPLAYER for inválido. O nome é considerado inválido se estiver vazio, se contiver espaços, ou se contiver caracteres não alfanuméricos.'''
 
     NOT_ENOUGH_PLAYERS = "ERROR NOT_ENOUGH_PLAYERS"
     '''Mensagem de erro enviada pelo servidor ao jogador mestre caso não haja jogadores comuns restantes para continuar o jogo.'''
@@ -27,4 +27,3 @@ class Error:
 
     QUIT = "QUIT"
     '''Esta mensagem não é exatamente um erro, mas pode ser enviada pelo cliente ao servidor para indicar que o jogador deseja se desconectar. O servidor deve responder com OK e encerrar a conexão.'''
-    

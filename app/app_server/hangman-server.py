@@ -3,7 +3,7 @@ import sys, traceback
 from .run import run_game
 
 if __name__ == "__main__":
-    
+
     try:
         run_game()
 
@@ -14,6 +14,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n\n[ERRO FATAL] O servidor encontrou um erro inesperado: {e}")
         print("--- TRACEBACK COMPLETO ---")
-        traceback.print_exc() 
+        traceback.print_exc()
         print("--------------------------")
         sys.exit(1)
