@@ -79,6 +79,7 @@ def deal_player_left(response: str, current_player: Player, total_common_players
         )
 
     game_state.common_players.remove(current_player)
+    game_state.all_players.remove(current_player)
     total_common_players = len(game_state.common_players)
 
     if total_common_players > 0:
