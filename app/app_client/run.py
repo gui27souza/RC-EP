@@ -58,7 +58,7 @@ def run_game():
 
         ### YOURTURN
         elif response.startswith("YOURTURN"):
-            client.turn.handle_yourturn(client_socket)
+            client.turn.handle_yourturn(client_socket, game_state)
 
         ### STATUS
         elif response.startswith("STATUS "):
