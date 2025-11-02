@@ -4,7 +4,7 @@ Módulo que lida com operações do fluxo de jogo relacionada a configuração d
 
 import socket
 from typing import List
-from app.models import Player, Error, Message, ServerMessage
+from app.models import Player, Error, ServerMessage
 
 def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
     '''
@@ -23,7 +23,7 @@ def init(server_socket: socket.socket, numero_jogadores: int) -> List[Player]:
         client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
         # Recebe NEWPLAYER <nome>
-        initial_message = Message.receive_message(client_socket)
+        initial_message = ServerMessage.receive_message(client_socket)
 
         if initial_message and initial_message.startswith("NEWPLAYER "):
             
