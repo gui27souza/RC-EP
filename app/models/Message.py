@@ -10,9 +10,15 @@ class Message:
 
     @staticmethod
     def send_message(socket_end: socket, message: str):
+
+        # Cooldown para envio de mensagem
         time.sleep(0.3)
+
+        # Formata a mensagem a ser enviada
         terminator = "\r\n"
         full_message = (message + terminator).encode('ascii')
+
+        # Envia a mensagem
         socket_end.sendall(full_message)
 
     @staticmethod
